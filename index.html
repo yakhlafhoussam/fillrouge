@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fil Noir 2026 · learners roll call</title>
+  <title>Fil Noir 2026 · learners roll call · dual audio</title>
   <!-- Tailwind + Inter refined -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -158,6 +158,54 @@
       0% { opacity: 0; transform: translateY(25px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+
+    /* refined audio bar — now with track indication */
+    .audio-embed {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+      background: #101b2b;
+      backdrop-filter: blur(8px);
+      border-radius: 60px;
+      border: 1px solid #2d4670;
+      padding: 8px 16px 8px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 25px #00000055;
+    }
+    .audio-embed:hover { opacity: 1; }
+    .audio-embed audio {
+      height: 36px;
+      width: 200px;
+      border-radius: 36px;
+    }
+    .audio-label {
+      color: #a2c4f0;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 300;
+      white-space: nowrap;
+    }
+    .track-badge {
+      background: #1f3450;
+      border-radius: 30px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #bbd6ff;
+      border: 1px solid #3d6190;
+    }
+    @media (max-width: 650px) {
+      .audio-embed { bottom: 10px; right: 10px; padding: 5px 10px; flex-wrap: wrap; gap: 5px; }
+      .audio-embed audio { width: 150px; height: 32px; }
+      .track-badge { font-size: 0.7rem; padding: 2px 8px; }
+      .audio-label { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -227,9 +275,19 @@
     </div>
   </div>
 
+  <!-- ✦ Dual‑track audio player: quran1.mp3 + quran2.mp3 with seamless loop ✦ -->
+  <div class="audio-embed" id="dualAudioWidget">
+    <span class="audio-label">Fil Noir rec.</span>
+    <span class="track-badge" id="trackIndicator">quran1</span>
+    <audio id="dualAudioPlayer" controls autoplay>
+      <source src="sound/quran1.mp3" type="audio/mpeg" id="audioSource">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
   <script>
     (function() {
-      // Target: May 11, 2026
+      // ---------- core countdown & learner logic (unchanged) ----------
       const targetDate = new Date(2026, 4, 11, 0, 0, 0);
       
       const mainDiv = document.getElementById('mainUI');
@@ -242,37 +300,16 @@
       
       const learnerSpan = document.getElementById('learnerMessage');
       
-      // LEARNERS LIST (full names only, no handles)
       const learnerNames = [
-        "Abdelilah Isswa",
-        "Abderrahim Elgmouri",
-        "Abderrazak Errifaouy",
-        "Amine Lebrini",
-        "Ayoub Houdda",
-        "Badr Eddine Slaoui",
-        "Bilal Bakessou",
-        "Bouchaib El Haidi",
-        "Brahim El Habchi",
-        "Houssam YK",
-        "Houssam Mirrou",
-        "Houssam Largou",
-        "Kaoutar Zahir",
-        "Khadija El Haddad",
-        "Lahcen Ait Maskour",
-        "Mohamed Rahoumi",
-        "Mohamed reda chakir",
-        "Mouad El Alli",
-        "Noureddine Zouana",
-        "Olaya Azzam",
-        "Saad Haimeur",
-        "Saadia Ajbbar",
-        "Saoui Mouna",
-        "Taha Irhmourra",
-        "Yassine Nmila"
+        "Abdelilah Isswa", "Abderrahim Elgmouri", "Abderrazak Errifaouy", "Amine Lebrini",
+        "Ayoub Houdda", "Badr Eddine Slaoui", "Bilal Bakessou", "Bouchaib El Haidi",
+        "Brahim El Habchi", "Houssam YK", "Houssam Mirrou", "Houssam Largou",
+        "Kaoutar Zahir", "Khadija El Haddad", "Lahcen Ait Maskour", "Mohamed Rahoumi",
+        "Mohamed reda chakir", "Mouad El Alli", "Noureddine Zouana", "Olaya Azzam",
+        "Saad Haimeur", "Saadia Ajbbar", "Saoui Mouna", "Taha Irhmourra", "Yassine Nmila"
       ];
 
       let learnerIndex = 0;
-
       function updateLearnerMessage() {
         if (learnerSpan && learnerNames.length > 0) {
           learnerSpan.innerText = learnerNames[learnerIndex % learnerNames.length];
@@ -281,7 +318,6 @@
       }
 
       function formatTwo(n) { return n < 10 ? '0' + n : n; }
-
       function isExpired() { return Date.now() >= targetDate.getTime(); }
 
       function showFinalScreen() {
@@ -304,26 +340,20 @@
           return true;
         }
         const diff = targetDate - Date.now();
-        const days = Math.floor(diff / 86400000);
-        const hours = Math.floor((diff % 86400000) / 3600000);
-        const mins = Math.floor((diff % 3600000) / 60000);
-        const secs = Math.floor((diff % 60000) / 1000);
-        
-        daysSpan.innerText = formatTwo(days);
-        hoursSpan.innerText = formatTwo(hours);
-        minutesSpan.innerText = formatTwo(mins);
-        secondsSpan.innerText = formatTwo(secs);
+        daysSpan.innerText = formatTwo(Math.floor(diff / 86400000));
+        hoursSpan.innerText = formatTwo(Math.floor((diff % 86400000) / 3600000));
+        minutesSpan.innerText = formatTwo(Math.floor((diff % 3600000) / 60000));
+        secondsSpan.innerText = formatTwo(Math.floor((diff % 60000) / 1000));
         return false;
       }
 
-      // Initial setup
+      // initial UI
       if (isExpired()) {
         showFinalScreen();
       } else {
         updateNumbersAndMaybeFinal();
-        updateLearnerMessage(); // first message immediate
+        updateLearnerMessage();
         
-        // 1-second interval for timer
         const timerInterval = setInterval(() => {
           if (isExpired()) {
             clearInterval(timerInterval);
@@ -334,15 +364,67 @@
           }
         }, 1000);
         
-        // 3-second interval for learner message
         const learnerInterval = setInterval(() => {
-          if (!isExpired()) {
-            updateLearnerMessage();
-          } else {
-            clearInterval(learnerInterval);
-          }
+          if (!isExpired()) updateLearnerMessage();
+          else clearInterval(learnerInterval);
         }, 3000);
       }
+
+      // ---------- DUAL AUDIO (quran1.mp3 → quran2.mp3 → loop) ----------
+      const audioPlayer = document.getElementById('dualAudioPlayer');
+      const audioSource = document.getElementById('audioSource');
+      const trackBadge = document.getElementById('trackIndicator');
+
+      // list of tracks
+      const tracks = [
+        { src: 'sound/quran1.mp3', label: 'سورة الرحمن معاذ أيمن' },
+        { src: 'sound/quran2.mp3', label: 'سورة البقرة معاذ صيام' }
+      ];
+
+      let currentTrackIndex = 0;  // start with quran1
+
+      // function to update source and badge
+      function switchToTrack(index) {
+        const track = tracks[index % tracks.length];  // safe wrap
+        audioSource.src = track.src;
+        trackBadge.innerText = track.label;
+        // reload and play (if player is not paused)
+        audioPlayer.load();
+        // attempt to play (autoplay may be restricted, but we try)
+        audioPlayer.play().catch(e => console.log('autoplay blocked – user interaction needed'));
+      }
+
+      // event: when current track ends, move to next
+      audioPlayer.addEventListener('ended', () => {
+        currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+        switchToTrack(currentTrackIndex);
+      });
+
+      // optional: if browser blocks autoplay, a single user click on body will attempt to start audio
+      // (helps user to start playback easily)
+      document.body.addEventListener('click', function startAudioOnce() {
+        if (audioPlayer.paused) {
+          audioPlayer.play().catch(e => {});
+        }
+      }, { once: true });
+
+      // ensure badge matches initial track (already 'quran1' from HTML)
+      // but to be safe after potential delay, set it explicitly
+      currentTrackIndex = 0;
+      audioSource.src = 'sound/quran1.mp3';
+      trackBadge.innerText = 'سورة الرحمن معاذ أيمن';
+      audioPlayer.load(); // preload
+
+      // one more gentle autoplay attempt after page load (some browsers allow if user interacted earlier)
+      window.addEventListener('load', () => {
+        // try to play after a tiny delay — no guarantee, but gives a chance
+        setTimeout(() => {
+          if (audioPlayer.paused) {
+            audioPlayer.play().catch(() => {});  // silent fail
+          }
+        }, 800);
+      });
+
     })();
   </script>
 </body>
