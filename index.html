@@ -367,41 +367,40 @@
       const learnerSpan = document.getElementById('learnerMessage');
       const studentAvatar = document.getElementById('studentAvatar');
 
-      // LEARNERS LIST with associated image URLs (unique for each student)
+      // LEARNERS LIST with LOCAL image paths (student_images folder)
+      // All images are stored in the "student_images" folder with the following filenames
       const learnerData = [
-        { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile//1545-1760996241.png" },
-        { name: "Abderrahim Elgmouri", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1875-1760996503.png" },
-        { name: "Abderrazak Errifaouy", imageUrl: "https://intranet.youcode.ma/storage/users/profile/764-1760996158.png" },
-        { name: "Amine Lebrini", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1778-1760996463.png" },
-        { name: "Ayoub Houdda", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1656-1760996326.png" },
-        { name: "Badr Eddine Slaoui", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1665-1760996334.png" },
-        { name: "Bilal Bakessou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1854-1760996479.png" },
-        { name: "Bouchaib El Haidi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1896-1760996532.png" },
-        { name: "Brahim El Habchi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1775-1760996461.png" },
-        { name: "Houssam YK", imageUrl: "https://avatars.githubusercontent.com/u/229795353?s=400&u=ce66accd251f0e7ec2e0f472540b984e00a61b6c&v=4" },
-        { name: "Houssam Mirrou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1756-1760996448.png" },
-        { name: "Houssam Largou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1755-1760996446.png" },
-        { name: "Kaoutar Zahir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1666-1760996336.png" },
-        { name: "Khadija El Haddad", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1865-1760996489.png" },
-        { name: "Lahcen Ait Maskour", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1542-1760996237.png" },
-        { name: "Lamia Bane", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1856-1760996481.png" },
-        { name: "Mohamed Rahoumi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1783-1760996473.png" },
-        { name: "Mohamed reda chakir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1664-1760996332.png" },
-        { name: "Mouad El Alli", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1722-1760996401.png" },
-        { name: "Noureddine Zouana", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1879-1760996511.png" },
-        { name: "Olaya Azzam", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1744-1760996438.png" },
-        { name: "Saad Haimeur", imageUrl: "https://media.licdn.com/dms/image/v2/D4E03AQHg8vsMEiI6Fw/profile-displayphoto-crop_800_800/B4EZgof51cGwAM-/0/1753026111079?e=1775692800&v=beta&t=9-B1jmrV-5jhrzBBacM6th8IgCA7FT-QdIKY8C5Bdy0" },
-        { name: "Saadia Ajbbar", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1643-1760996313.png" },
-        { name: "Saoui Mouna", imageUrl: "https://intranet.youcode.ma/storage/users/profile/2053-1760996607.png" },
-        { name: "Taha Irhmourra", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1774-1760996459.png" },
-        { name: "Yassine Nmila", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1712-1760996382.png" },
-        { name: "Zouhair Folki", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1701-1760996370.png" }
+        { name: "Abdelilah Isswa", imageUrl: "student_images/Abdelilah_Isswa.png" },
+        { name: "Abderrahim Elgmouri", imageUrl: "student_images/Abderrahim_Elgmouri.png" },
+        { name: "Abderrazak Errifaouy", imageUrl: "student_images/Abderrazak_Errifaouy.png" },
+        { name: "Amine Lebrini", imageUrl: "student_images/Amine_Lebrini.png" },
+        { name: "Ayoub Houdda", imageUrl: "student_images/Ayoub_Houdda.png" },
+        { name: "Badr Eddine Slaoui", imageUrl: "student_images/Badr_Eddine_Slaoui.png" },
+        { name: "Bilal Bakessou", imageUrl: "student_images/Bilal_Bakessou.png" },
+        { name: "Bouchaib El Haidi", imageUrl: "student_images/Bouchaib_El_Haidi.png" },
+        { name: "Brahim El Habchi", imageUrl: "student_images/Brahim_El_Habchi.png" },
+        { name: "Houssam YK", imageUrl: "student_images/Houssam_YK.png" },
+        { name: "Houssam Mirrou", imageUrl: "student_images/Houssam_Mirrou.png" },
+        { name: "Houssam Largou", imageUrl: "student_images/Houssam_Largou.png" },
+        { name: "Kaoutar Zahir", imageUrl: "student_images/Kaoutar_Zahir.png" },
+        { name: "Khadija El Haddad", imageUrl: "student_images/Khadija_El_Haddad.png" },
+        { name: "Lahcen Ait Maskour", imageUrl: "student_images/Lahcen_Ait_Maskour.png" },
+        { name: "Lamia Bane", imageUrl: "student_images/Lamia_Bane.png" },
+        { name: "Mohamed Rahoumi", imageUrl: "student_images/Mohamed_Rahoumi.png" },
+        { name: "Mohamed reda chakir", imageUrl: "student_images/Mohamed_reda_chakir.png" },
+        { name: "Mouad El Alli", imageUrl: "student_images/Mouad_El_Alli.png" },
+        { name: "Noureddine Zouana", imageUrl: "student_images/Noureddine_Zouana.png" },
+        { name: "Olaya Azzam", imageUrl: "student_images/Olaya_Azzam.png" },
+        { name: "Saad Haimeur", imageUrl: "student_images/Saad_Haimeur.png" },
+        { name: "Saadia Ajbbar", imageUrl: "student_images/Saadia_Ajbbar.png" },
+        { name: "Saoui Mouna", imageUrl: "student_images/Saoui_Mouna.png" },
+        { name: "Taha Irhmourra", imageUrl: "student_images/Taha_Irhmourra.png" },
+        { name: "Yassine Nmila", imageUrl: "student_images/Yassine_Nmila.png" },
+        { name: "Zouhair Folki", imageUrl: "student_images/Zouhair_Folki.png" }
       ];
 
       let currentDisplayIndex = 0;
       let isUpdating = false;
-      let nextImagePreloaded = null;
-      let preloadQueue = [];
 
       // Preload images to eliminate delay
       function preloadImage(url) {
@@ -429,59 +428,6 @@
 
         await Promise.allSettled(preloadPromises);
         console.log("All images preloaded successfully!");
-      }
-
-      // Synchronized update - image and name change together
-      function updateLearnerDisplaySynchronized() {
-        if (isUpdating) return;
-        isUpdating = true;
-
-        const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
-        const nextLearner = learnerData[(currentDisplayIndex + 1) % learnerData.length];
-
-        // Fade out effect for smooth transition
-        learnerSpan.style.opacity = '0';
-        studentAvatar.style.opacity = '0';
-
-        setTimeout(() => {
-          // Update name immediately while image is cached
-          learnerSpan.innerText = currentLearner.name;
-
-          // Set image - since it's preloaded, it should appear instantly
-          studentAvatar.src = currentLearner.imageUrl;
-          studentAvatar.classList.remove('avatar-loading');
-
-          // Preload next image in background
-          if (nextLearner) {
-            const nextImg = new Image();
-            nextImg.src = nextLearner.imageUrl;
-          }
-
-          // Fade back in
-          setTimeout(() => {
-            learnerSpan.style.opacity = '1';
-            studentAvatar.style.opacity = '1';
-          }, 50);
-
-          currentDisplayIndex++;
-          isUpdating = false;
-        }, 100);
-      }
-
-      // Alternative: direct update without fade for instant response
-      function updateLearnerDisplayInstant() {
-        const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
-
-        // Update both elements simultaneously
-        learnerSpan.innerText = currentLearner.name;
-
-        // Image is already preloaded, so this is instant
-        if (studentAvatar.src !== currentLearner.imageUrl) {
-          studentAvatar.src = currentLearner.imageUrl;
-        }
-
-        studentAvatar.classList.remove('avatar-loading');
-        currentDisplayIndex++;
       }
 
       // Use instant update for best synchronization (no delay)
