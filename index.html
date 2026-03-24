@@ -96,6 +96,7 @@
       gap: 1.5rem;
       transition: box-shadow 0.3s;
       max-width: 95%;
+      min-width: 320px;
     }
     
     /* student avatar image */
@@ -107,7 +108,12 @@
       border: 2px solid #4f7eb3;
       box-shadow: 0 0 20px rgba(79, 126, 179, 0.4);
       background: #1f2a3a;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+      opacity: 1;
+    }
+    .student-avatar.avatar-loading {
+      opacity: 0.6;
+      filter: blur(2px);
     }
     .student-avatar:hover {
       transform: scale(1.05);
@@ -126,6 +132,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       filter: drop-shadow(0 0 20px #5f9eff);
+      transition: opacity 0.15s ease;
     }
     
     @media (max-width: 640px) {
@@ -133,6 +140,7 @@
         padding: 0.8rem 1.2rem;
         gap: 0.8rem;
         border-radius: 3rem;
+        min-width: 260px;
       }
       .student-avatar {
         width: 48px;
@@ -185,12 +193,7 @@
       100% { opacity: 1; transform: translateY(0); }
     }
     
-    /* loading placeholder for images */
-    .avatar-loading {
-      background: linear-gradient(110deg, #1f2a3a 8%, #2a3a50 18%, #1f2a3a 33%);
-      background-size: 200% 100%;
-      animation: shimmer 1.2s linear infinite;
-    }
+    /* loading shimmer effect */
     @keyframes shimmer {
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -222,11 +225,11 @@
           <p class="text-gray-400 mt-3 text-base md:text-lg">The dark day · may 5</p>
         </div>
         
-        <!-- LEARNERS DISPLAY with image + name -->
+        <!-- LEARNERS DISPLAY with image + name - synchronized update -->
         <div class="flex justify-center my-10">
-          <div class="learners-premium" id="learnerContainer">
-            <img id="studentAvatar" class="student-avatar" src="" alt="student avatar">
-            <span class="learners-text-glow" id="learnerMessage">Abdelilah Isswa</span>
+          <div class="learners-premium flex-col" id="learnerContainer">
+            <img id="studentAvatar" class="student-avatar w-60 h-60" src="" alt="student avatar">
+            <span class="learners-text-glow" id="learnerMessage">Loading...</span>
           </div>
         </div>
         
@@ -282,9 +285,6 @@
       const studentAvatar = document.getElementById('studentAvatar');
       
       // LEARNERS LIST with associated image URLs (unique for each student)
-      // Using high-quality placeholder images from UI Faces / random avatar API with consistent style
-      // Each student gets a unique avatar via DiceBear Avataaars style (consistent, unique per name)
-      // This ensures every student has a distinct image URL without external uploads.
       const learnerData = [
         { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile//1545-1760996241.png" },
         { name: "Abderrahim Elgmouri", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1875-1760996503.png" },
@@ -315,32 +315,106 @@
         { name: "Zouhair Folki", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1701-1760996370.png" }
       ];
 
-      let learnerIndex = 0;
+      let currentDisplayIndex = 0;
+      let isUpdating = false;
+      let nextImagePreloaded = null;
+      let preloadQueue = [];
       
-      // Function to update both name and image
-      function updateLearnerDisplay() {
-        if (learnerData.length === 0) return;
-        const currentLearner = learnerData[learnerIndex % learnerData.length];
+      // Preload images to eliminate delay
+      function preloadImage(url) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => reject(new Error(`Failed to load: ${url}`));
+          img.src = url;
+        });
+      }
+      
+      // Preload all images on startup for instant switching
+      async function preloadAllImages() {
+        const preloadPromises = learnerData.map(async (student, index) => {
+          try {
+            await preloadImage(student.imageUrl);
+            console.log(`Preloaded: ${student.name}`);
+          } catch (error) {
+            console.warn(`Could not preload image for ${student.name}`, error);
+            // Set fallback for failed images
+            learnerData[index].imageUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback&backgroundColor=4f7eb3";
+            await preloadImage(learnerData[index].imageUrl);
+          }
+        });
+        
+        await Promise.allSettled(preloadPromises);
+        console.log("All images preloaded successfully!");
+      }
+      
+      // Synchronized update - image and name change together
+      function updateLearnerDisplaySynchronized() {
+        if (isUpdating) return;
+        isUpdating = true;
+        
+        const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
+        const nextLearner = learnerData[(currentDisplayIndex + 1) % learnerData.length];
+        
+        // Fade out effect for smooth transition
+        learnerSpan.style.opacity = '0';
+        studentAvatar.style.opacity = '0';
+        
+        setTimeout(() => {
+          // Update name immediately while image is cached
+          learnerSpan.innerText = currentLearner.name;
+          
+          // Set image - since it's preloaded, it should appear instantly
+          studentAvatar.src = currentLearner.imageUrl;
+          studentAvatar.classList.remove('avatar-loading');
+          
+          // Preload next image in background
+          if (nextLearner) {
+            const nextImg = new Image();
+            nextImg.src = nextLearner.imageUrl;
+          }
+          
+          // Fade back in
+          setTimeout(() => {
+            learnerSpan.style.opacity = '1';
+            studentAvatar.style.opacity = '1';
+          }, 50);
+          
+          currentDisplayIndex++;
+          isUpdating = false;
+        }, 100);
+      }
+      
+      // Alternative: direct update without fade for instant response
+      function updateLearnerDisplayInstant() {
+        const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
+        
+        // Update both elements simultaneously
         learnerSpan.innerText = currentLearner.name;
         
-        // Add loading effect while image loads
-        studentAvatar.classList.add('avatar-loading');
-        const imgUrl = currentLearner.imageUrl;
-        studentAvatar.src = imgUrl;
-        
-        // Remove loading class once image is loaded (or error)
-        if (studentAvatar.complete) {
-          studentAvatar.classList.remove('avatar-loading');
-        } else {
-          studentAvatar.onload = () => studentAvatar.classList.remove('avatar-loading');
-          studentAvatar.onerror = () => {
-            studentAvatar.classList.remove('avatar-loading');
-            // Fallback to a default avatar if image fails
-            studentAvatar.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback&backgroundColor=4f7eb3";
-          };
+        // Image is already preloaded, so this is instant
+        if (studentAvatar.src !== currentLearner.imageUrl) {
+          studentAvatar.src = currentLearner.imageUrl;
         }
         
-        learnerIndex++;
+        studentAvatar.classList.remove('avatar-loading');
+        currentDisplayIndex++;
+      }
+      
+      // Use instant update for best synchronization (no delay)
+      function updateLearnerDisplay() {
+        const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
+        
+        // Update name
+        learnerSpan.innerText = currentLearner.name;
+        
+        // Update image (already preloaded, so instant)
+        if (studentAvatar.src !== currentLearner.imageUrl) {
+          studentAvatar.src = currentLearner.imageUrl;
+        }
+        
+        studentAvatar.classList.remove('avatar-loading');
+        currentDisplayIndex++;
       }
 
       function formatTwo(n) { return n < 10 ? '0' + n : n; }
@@ -373,12 +447,28 @@
         return false;
       }
 
-      // Initial UI
-      if (isExpired()) {
-        showFinalScreen();
-      } else {
+      // Initialize with preload then start
+      async function initialize() {
+        // Show loading state
+        learnerSpan.innerText = "Loading students...";
+        
+        // Preload all images first
+        await preloadAllImages();
+        
+        if (isExpired()) {
+          showFinalScreen();
+          return;
+        }
+        
+        // Start with first student
         updateNumbersAndMaybeFinal();
-        updateLearnerDisplay(); // show first student with image
+        
+        // Set initial image and name (first student)
+        const firstLearner = learnerData[0];
+        learnerSpan.innerText = firstLearner.name;
+        studentAvatar.src = firstLearner.imageUrl;
+        studentAvatar.classList.remove('avatar-loading');
+        currentDisplayIndex = 1;
         
         // Timer: update countdown every second
         const timerInterval = setInterval(() => {
@@ -391,18 +481,18 @@
           }
         }, 1000);
         
-        // Rotate learner (name + image) every 3 seconds
+        // Rotate learner (name + image) every 3 seconds - perfectly synchronized
         const learnerInterval = setInterval(() => {
           if (!isExpired()) {
-            updateLearnerDisplay();
+            updateLearnerDisplay(); // Instant update with preloaded images
           } else {
             clearInterval(learnerInterval);
           }
         }, 3000);
       }
       
-      // Preload hint: optional — ensures images are fetched smoothly
-      // Add a small style to guarantee avatar container looks polished
+      // Start the application
+      initialize();
     })();
   </script>
 </body>
