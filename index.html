@@ -142,11 +142,6 @@
       opacity: 1;
     }
 
-    .student-avatar.avatar-loading {
-      opacity: 0.6;
-      filter: blur(2px);
-    }
-
     .student-avatar:hover {
       transform: scale(1.05);
       border-color: #8bbaff;
@@ -254,17 +249,6 @@
       }
     }
 
-    /* loading shimmer effect */
-    @keyframes shimmer {
-      0% {
-        background-position: 200% 0;
-      }
-
-      100% {
-        background-position: -200% 0;
-      }
-    }
-
     /* Hide scrollbar for all elements */
     *::-webkit-scrollbar {
       display: none;
@@ -309,9 +293,9 @@
 
         <!-- LEARNERS DISPLAY with image + name - synchronized update -->
         <div class="flex justify-center my-10">
-          <div class="learners-premium flex-col" id="learnerContainer">
-            <img id="studentAvatar" class="student-avatar w-60 h-60" src="" alt="student avatar">
-            <span class="learners-text-glow" id="learnerMessage">Loading...</span>
+          <div class="learners-premium" id="learnerContainer">
+            <img id="studentAvatar" class="student-avatar" src="student_images/Abdelilah_Isswa.png" alt="student avatar">
+            <span class="learners-text-glow" id="learnerMessage">Abdelilah Isswa</span>
           </div>
         </div>
 
@@ -368,7 +352,7 @@
       const studentAvatar = document.getElementById('studentAvatar');
 
       // LEARNERS LIST with LOCAL image paths (student_images folder)
-      // All images are stored in the "student_images" folder with the following filenames
+      // Direct local file references - no external URLs
       const learnerData = [
         { name: "Abdelilah Isswa", imageUrl: "student_images/Abdelilah_Isswa.png" },
         { name: "Abderrahim Elgmouri", imageUrl: "student_images/Abderrahim_Elgmouri.png" },
@@ -399,50 +383,18 @@
         { name: "Zouhair Folki", imageUrl: "student_images/Zouhair_Folki.png" }
       ];
 
-      let currentDisplayIndex = 0;
-      let isUpdating = false;
+      let currentDisplayIndex = 1;
 
-      // Preload images to eliminate delay
-      function preloadImage(url) {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => resolve(img);
-          img.onerror = () => reject(new Error(`Failed to load: ${url}`));
-          img.src = url;
-        });
-      }
-
-      // Preload all images on startup for instant switching
-      async function preloadAllImages() {
-        const preloadPromises = learnerData.map(async (student, index) => {
-          try {
-            await preloadImage(student.imageUrl);
-            console.log(`Preloaded: ${student.name}`);
-          } catch (error) {
-            console.warn(`Could not preload image for ${student.name}`, error);
-            // Set fallback for failed images
-            learnerData[index].imageUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback&backgroundColor=4f7eb3";
-            await preloadImage(learnerData[index].imageUrl);
-          }
-        });
-
-        await Promise.allSettled(preloadPromises);
-        console.log("All images preloaded successfully!");
-      }
-
-      // Use instant update for best synchronization (no delay)
+      // Simple update function without loading state
       function updateLearnerDisplay() {
         const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
-
+        
         // Update name
         learnerSpan.innerText = currentLearner.name;
-
-        // Update image (already preloaded, so instant)
-        if (studentAvatar.src !== currentLearner.imageUrl) {
-          studentAvatar.src = currentLearner.imageUrl;
-        }
-
-        studentAvatar.classList.remove('avatar-loading');
+        
+        // Update image directly from local folder
+        studentAvatar.src = currentLearner.imageUrl;
+        
         currentDisplayIndex++;
       }
 
@@ -476,28 +428,15 @@
         return false;
       }
 
-      // Initialize with preload then start
-      async function initialize() {
-        // Show loading state
-        learnerSpan.innerText = "Loading students...";
-
-        // Preload all images first
-        await preloadAllImages();
-
+      // Initialize without loading state
+      function initialize() {
         if (isExpired()) {
           showFinalScreen();
           return;
         }
 
-        // Start with first student
+        // Start countdown
         updateNumbersAndMaybeFinal();
-
-        // Set initial image and name (first student)
-        const firstLearner = learnerData[0];
-        learnerSpan.innerText = firstLearner.name;
-        studentAvatar.src = firstLearner.imageUrl;
-        studentAvatar.classList.remove('avatar-loading');
-        currentDisplayIndex = 1;
 
         // Timer: update countdown every second
         const timerInterval = setInterval(() => {
@@ -510,17 +449,17 @@
           }
         }, 1000);
 
-        // Rotate learner (name + image) every 3 seconds - perfectly synchronized
+        // Rotate learner (name + image) every 3 seconds - instant update
         const learnerInterval = setInterval(() => {
           if (!isExpired()) {
-            updateLearnerDisplay(); // Instant update with preloaded images
+            updateLearnerDisplay();
           } else {
             clearInterval(learnerInterval);
           }
         }, 3000);
       }
 
-      // Start the application
+      // Start the application immediately
       initialize();
     })();
   </script>
