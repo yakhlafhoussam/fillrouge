@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fil Noir 2026 · learners roll call · visual gallery</title>
   <!-- Tailwind + Inter refined -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+    rel="stylesheet">
   <style>
-    * { font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
-    
+    * {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       background: #0b0d17;
       min-height: 100vh;
@@ -19,7 +27,7 @@
       position: relative;
       background-image: radial-gradient(circle at 100% 0%, #1f2b3f, #03050b 70%);
     }
-    
+
     /* subtle orbs – more elegant */
     .orb-elegant {
       position: absolute;
@@ -30,14 +38,33 @@
       opacity: 0.25;
       animation: orbMove 30s infinite alternate;
     }
-    .orb-elegant.left { width: 70vmax; height: 70vmax; left: -20%; top: -20%; }
-    .orb-elegant.right { width: 60vmin; height: 60vmin; right: 0%; bottom: 0%; background: #2f2645; animation-duration: 40s; }
-    
-    @keyframes orbMove {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(6%, -4%) scale(1.2); }
+
+    .orb-elegant.left {
+      width: 70vmax;
+      height: 70vmax;
+      left: -20%;
+      top: -20%;
     }
-    
+
+    .orb-elegant.right {
+      width: 60vmin;
+      height: 60vmin;
+      right: 0%;
+      bottom: 0%;
+      background: #2f2645;
+      animation-duration: 40s;
+    }
+
+    @keyframes orbMove {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        transform: translate(6%, -4%) scale(1.2);
+      }
+    }
+
     /* main card — cleaner, softer dark glass, refined radius */
     .card-refined {
       background: rgba(12, 18, 28, 0.75);
@@ -49,7 +76,7 @@
       position: relative;
       z-index: 30;
     }
-    
+
     /* countdown tiles — smoother, with better contrast */
     .tile-premium {
       background: #0f1a28;
@@ -60,13 +87,14 @@
       transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
       text-align: center;
     }
+
     .tile-premium:hover {
       border-color: #4f7eb3;
       background: #132235;
       transform: translateY(-6px);
       box-shadow: 0 30px 40px -25px #1e4c9e;
     }
-    
+
     .digit-clean {
       font-size: 4.5rem;
       font-weight: 700;
@@ -75,6 +103,7 @@
       line-height: 1;
       letter-spacing: -0.02em;
     }
+
     .digit-label {
       color: #99b8d4;
       font-size: 0.8rem;
@@ -83,7 +112,7 @@
       margin-top: 0.8rem;
       font-weight: 400;
     }
-    
+
     /* learners display container — elegant with image integration */
     .learners-premium {
       background: #0d1422;
@@ -98,7 +127,7 @@
       max-width: 95%;
       min-width: 320px;
     }
-    
+
     /* student avatar image */
     .student-avatar {
       width: 70px;
@@ -111,15 +140,17 @@
       transition: transform 0.3s ease, opacity 0.2s ease;
       opacity: 1;
     }
+
     .student-avatar.avatar-loading {
       opacity: 0.6;
       filter: blur(2px);
     }
+
     .student-avatar:hover {
       transform: scale(1.05);
       border-color: #8bbaff;
     }
-    
+
     .learners-text-glow {
       font-size: 2rem;
       font-weight: 600;
@@ -134,7 +165,7 @@
       filter: drop-shadow(0 0 20px #5f9eff);
       transition: opacity 0.15s ease;
     }
-    
+
     @media (max-width: 640px) {
       .learners-premium {
         padding: 0.8rem 1.2rem;
@@ -142,15 +173,28 @@
         border-radius: 3rem;
         min-width: 260px;
       }
+
       .student-avatar {
         width: 48px;
         height: 48px;
       }
-      .learners-text-glow { font-size: 1.2rem; white-space: normal; text-align: left; }
-      .digit-clean { font-size: 3.2rem; }
-      .card-refined { border-radius: 2.5rem; padding: 1.5rem; }
+
+      .learners-text-glow {
+        font-size: 1.2rem;
+        white-space: normal;
+        text-align: left;
+      }
+
+      .digit-clean {
+        font-size: 3.2rem;
+      }
+
+      .card-refined {
+        border-radius: 2.5rem;
+        padding: 1.5rem;
+      }
     }
-    
+
     /* HYK signature — refined */
     .hyk-sleek {
       font-weight: 300;
@@ -163,7 +207,7 @@
       border-left: 3px solid #3b82f6;
       padding-left: 1.2rem;
     }
-    
+
     /* final message elegant dark */
     .final-elegant {
       background: #0d1727;
@@ -174,32 +218,66 @@
       text-align: center;
       animation: fadeFinal 1s ease;
     }
+
     @keyframes fadeFinal {
-      0% { opacity: 0; transform: scale(0.95); }
-      100% { opacity: 1; transform: scale(1); }
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
-    
+
     .footer-sleek {
       border-top: 1px solid #1e2f40;
       color: #7189a6;
     }
-    
+
     /* fade-in */
     .appear-smooth {
       animation: appear 1.5s ease forwards;
     }
+
     @keyframes appear {
-      0% { opacity: 0; transform: translateY(25px); }
-      100% { opacity: 1; transform: translateY(0); }
+      0% {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    
+
     /* loading shimmer effect */
     @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    /* Hide scrollbar for all elements */
+    *::-webkit-scrollbar {
+      display: none;
+    }
+
+    * {
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
     }
   </style>
 </head>
+
 <body>
 
   <div class="orb-elegant left"></div>
@@ -207,10 +285,12 @@
 
   <div class="relative z-40 w-full max-w-5xl p-5 appear-smooth">
     <div class="card-refined p-9 md:p-13 lg:p-14">
-      
+
       <!-- header: refined, clean -->
       <div class="flex flex-wrap items-center justify-between gap-5 mb-10">
-        <span class="text-xs font-medium text-blue-400/70 tracking-[0.3em] bg-[#101b2b] px-6 py-3 rounded-full border border-blue-900/50 uppercase">Fil Noir · YouCode</span>
+        <span
+          class="text-xs font-medium text-blue-400/70 tracking-[0.3em] bg-[#101b2b] px-6 py-3 rounded-full border border-blue-900/50 uppercase">Fil
+          Noir · YouCode</span>
         <div class="flex items-center gap-5">
           <span class="text-sm text-blue-400/40">crafted by</span>
           <span class="hyk-sleek">HYK</span>
@@ -221,10 +301,11 @@
       <div id="mainUI">
         <!-- title with better balance -->
         <div class="text-center">
-          <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight">Fil Noir <span class="text-blue-400 font-light">2026</span></h1>
+          <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight">Fil Noir <span
+              class="text-blue-400 font-light">2026</span></h1>
           <p class="text-gray-400 mt-3 text-base md:text-lg">The dark day · may 5</p>
         </div>
-        
+
         <!-- LEARNERS DISPLAY with image + name - synchronized update -->
         <div class="flex justify-center my-10">
           <div class="learners-premium flex-col" id="learnerContainer">
@@ -232,7 +313,7 @@
             <span class="learners-text-glow" id="learnerMessage">Loading...</span>
           </div>
         </div>
-        
+
         <!-- countdown tiles (4) -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-7 mt-8">
           <div class="tile-premium">
@@ -258,7 +339,8 @@
       <div id="finalUI" class="hidden w-full flex justify-center py-6"></div>
 
       <!-- footer with YouCode mention -->
-      <div class="footer-sleek mt-14 pt-8 text-center text-sm text-gray-500 flex flex-wrap items-center justify-center gap-5">
+      <div
+        class="footer-sleek mt-14 pt-8 text-center text-sm text-gray-500 flex flex-wrap items-center justify-center gap-5">
         <span>✦</span>
         <span>Fil Noir of YouCode</span>
         <span>✦</span>
@@ -269,21 +351,21 @@
   </div>
 
   <script>
-    (function() {
+    (function () {
       // ---------- Target Date: May 5, 2026 ----------
       const targetDate = new Date(2026, 4, 5, 0, 0, 0);
-      
+
       const mainDiv = document.getElementById('mainUI');
       const finalDiv = document.getElementById('finalUI');
-      
+
       const daysSpan = document.getElementById('days');
       const hoursSpan = document.getElementById('hours');
       const minutesSpan = document.getElementById('minutes');
       const secondsSpan = document.getElementById('seconds');
-      
+
       const learnerSpan = document.getElementById('learnerMessage');
       const studentAvatar = document.getElementById('studentAvatar');
-      
+
       // LEARNERS LIST with associated image URLs (unique for each student)
       const learnerData = [
         { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile//1545-1760996241.png" },
@@ -319,7 +401,7 @@
       let isUpdating = false;
       let nextImagePreloaded = null;
       let preloadQueue = [];
-      
+
       // Preload images to eliminate delay
       function preloadImage(url) {
         return new Promise((resolve, reject) => {
@@ -329,7 +411,7 @@
           img.src = url;
         });
       }
-      
+
       // Preload all images on startup for instant switching
       async function preloadAllImages() {
         const preloadPromises = learnerData.map(async (student, index) => {
@@ -343,76 +425,76 @@
             await preloadImage(learnerData[index].imageUrl);
           }
         });
-        
+
         await Promise.allSettled(preloadPromises);
         console.log("All images preloaded successfully!");
       }
-      
+
       // Synchronized update - image and name change together
       function updateLearnerDisplaySynchronized() {
         if (isUpdating) return;
         isUpdating = true;
-        
+
         const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
         const nextLearner = learnerData[(currentDisplayIndex + 1) % learnerData.length];
-        
+
         // Fade out effect for smooth transition
         learnerSpan.style.opacity = '0';
         studentAvatar.style.opacity = '0';
-        
+
         setTimeout(() => {
           // Update name immediately while image is cached
           learnerSpan.innerText = currentLearner.name;
-          
+
           // Set image - since it's preloaded, it should appear instantly
           studentAvatar.src = currentLearner.imageUrl;
           studentAvatar.classList.remove('avatar-loading');
-          
+
           // Preload next image in background
           if (nextLearner) {
             const nextImg = new Image();
             nextImg.src = nextLearner.imageUrl;
           }
-          
+
           // Fade back in
           setTimeout(() => {
             learnerSpan.style.opacity = '1';
             studentAvatar.style.opacity = '1';
           }, 50);
-          
+
           currentDisplayIndex++;
           isUpdating = false;
         }, 100);
       }
-      
+
       // Alternative: direct update without fade for instant response
       function updateLearnerDisplayInstant() {
         const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
-        
+
         // Update both elements simultaneously
         learnerSpan.innerText = currentLearner.name;
-        
+
         // Image is already preloaded, so this is instant
         if (studentAvatar.src !== currentLearner.imageUrl) {
           studentAvatar.src = currentLearner.imageUrl;
         }
-        
+
         studentAvatar.classList.remove('avatar-loading');
         currentDisplayIndex++;
       }
-      
+
       // Use instant update for best synchronization (no delay)
       function updateLearnerDisplay() {
         const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
-        
+
         // Update name
         learnerSpan.innerText = currentLearner.name;
-        
+
         // Update image (already preloaded, so instant)
         if (studentAvatar.src !== currentLearner.imageUrl) {
           studentAvatar.src = currentLearner.imageUrl;
         }
-        
+
         studentAvatar.classList.remove('avatar-loading');
         currentDisplayIndex++;
       }
@@ -451,25 +533,25 @@
       async function initialize() {
         // Show loading state
         learnerSpan.innerText = "Loading students...";
-        
+
         // Preload all images first
         await preloadAllImages();
-        
+
         if (isExpired()) {
           showFinalScreen();
           return;
         }
-        
+
         // Start with first student
         updateNumbersAndMaybeFinal();
-        
+
         // Set initial image and name (first student)
         const firstLearner = learnerData[0];
         learnerSpan.innerText = firstLearner.name;
         studentAvatar.src = firstLearner.imageUrl;
         studentAvatar.classList.remove('avatar-loading');
         currentDisplayIndex = 1;
-        
+
         // Timer: update countdown every second
         const timerInterval = setInterval(() => {
           if (isExpired()) {
@@ -480,7 +562,7 @@
             updateNumbersAndMaybeFinal();
           }
         }, 1000);
-        
+
         // Rotate learner (name + image) every 3 seconds - perfectly synchronized
         const learnerInterval = setInterval(() => {
           if (!isExpired()) {
@@ -490,10 +572,11 @@
           }
         }, 3000);
       }
-      
+
       // Start the application
       initialize();
     })();
   </script>
 </body>
+
 </html>
