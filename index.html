@@ -122,27 +122,49 @@
       padding: 1.2rem 2rem;
       box-shadow: 0 0 30px #1e3f6e, 0 0 0 1px #5f8fd0 inset;
       display: inline-flex;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 1.5rem;
       transition: box-shadow 0.3s;
       max-width: 95%;
       min-width: 320px;
+      position: relative;
     }
 
-    /* student avatar image */
-    .student-avatar {
-      width: 70px;
-      height: 70px;
+    /* All student images container - position relative for stacking */
+    .student-images-container {
+      position: relative;
+      width: 150px;
+      height: 150px;
+    }
+
+    /* Student image base style */
+    .student-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 150px;
+      height: 150px;
       border-radius: 100%;
       object-fit: cover;
-      border: 2px solid #4f7eb3;
-      box-shadow: 0 0 20px rgba(79, 126, 179, 0.4);
+      border: 3px solid #4f7eb3;
+      box-shadow: 0 0 30px rgba(79, 126, 179, 0.6);
       background: #1f2a3a;
-      transition: transform 0.3s ease, opacity 0.2s ease;
-      opacity: 1;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.9);
     }
 
-    .student-avatar:hover {
+    /* Visible image - only the current learner */
+    .student-img.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+
+    .student-img:hover {
       transform: scale(1.05);
       border-color: #8bbaff;
     }
@@ -159,26 +181,30 @@
       overflow: hidden;
       text-overflow: ellipsis;
       filter: drop-shadow(0 0 20px #5f9eff);
-      transition: opacity 0.15s ease;
     }
 
     @media (max-width: 640px) {
       .learners-premium {
         padding: 0.8rem 1.2rem;
-        gap: 0.8rem;
+        gap: 1rem;
         border-radius: 3rem;
         min-width: 260px;
       }
 
-      .student-avatar {
-        width: 48px;
-        height: 48px;
+      .student-images-container {
+        width: 100px;
+        height: 100px;
+      }
+
+      .student-img {
+        width: 100px;
+        height: 100px;
       }
 
       .learners-text-glow {
         font-size: 1.2rem;
         white-space: normal;
-        text-align: left;
+        text-align: center;
       }
 
       .digit-clean {
@@ -256,14 +282,12 @@
 
     * {
       -ms-overflow-style: none;
-      /* IE and Edge */
       scrollbar-width: none;
-      /* Firefox */
     }
   </style>
 </head>
 
-<body class="">
+<body>
 
   <div class="orb-elegant left"></div>
   <div class="orb-elegant right"></div>
@@ -291,10 +315,11 @@
           <p class="text-gray-400 mt-3 text-base md:text-lg">The dark day · may 5</p>
         </div>
 
-        <!-- LEARNERS DISPLAY with image + name - synchronized update -->
+        <!-- LEARNERS DISPLAY with all images stacked, only current visible -->
         <div class="flex justify-center my-10">
-          <div class="learners-premium flex-col" id="learnerContainer">
-            <img id="studentAvatar" class="student-avatar w-60 h-60" src="student_images/Abdelilah_Isswa.png" alt="student avatar">
+          <div class="learners-premium" id="learnerContainer">
+            <!-- Container for all student images -->
+            <div class="student-images-container" id="studentImagesContainer"></div>
             <span class="learners-text-glow" id="learnerMessage">Abdelilah Isswa</span>
           </div>
         </div>
@@ -349,51 +374,83 @@
       const secondsSpan = document.getElementById('seconds');
 
       const learnerSpan = document.getElementById('learnerMessage');
-      const studentAvatar = document.getElementById('studentAvatar');
+      const studentImagesContainer = document.getElementById('studentImagesContainer');
 
-      // LEARNERS LIST with LOCAL image paths (student_images folder)
-      // Direct local file references - no external URLs
+      // LEARNERS LIST with image URLs
       const learnerData = [
-        { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1545-1760996241.png" },
-        { name: "Abderrahim Elgmouri", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1875-1760996503.png" },
-        { name: "Abderrazak Errifaouy", imageUrl: "https://scontent-mad1-1.xx.fbcdn.net/v/t39.30808-6/474927736_1267505794470209_2691606334312247472_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=106&ccb=1-7&_nc_sid=53a332&_nc_eui2=AeEOhgTzSVXCEyJlZufEU9hVc5pSk6R11pVzmlKTpHXWlewdCaoGLwY5ngTeFqHTe588TWikMc_pQoj7WdGBD_tT&_nc_ohc=nHTKKTbHnCsQ7kNvwEkrgz9&_nc_oc=AdofMsFIIai9N4W92KrLUxIofY3gJS_zAJi0-VUouARflXAWf5s_NNULwQCVQ5vkZrc&_nc_zt=23&_nc_ht=scontent-mad1-1.xx&_nc_gid=jVZ-FMgk7G2zRSl4z0mewA&_nc_ss=7a32e&oh=00_Afy0w9E1XaDVCiZ94hAPf32lpYxDpyg7GGG4qlktuip4WA&oe=69C9B3F6" },
-        { name: "Amine Lebrini", imageUrl: "https://media.licdn.com/dms/image/v2/D4D35AQEy9nnYVFj-zg/profile-framedphoto-shrink_800_800/B4DZz2nGK9IcAg-/0/1773663970307?e=1775044800&v=beta&t=dqCuT_SkFtLQRVywJKCgC-sjsiOCvOMfewu-G3HxenU" },
-        { name: "Ayoub Houdda", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1656-1760996326.png" },
-        { name: "Badr Eddine Slaoui", imageUrl: "https://lh3.googleusercontent.com/a-/ALV-UjXC80Qp_d1Cbyb4ZaE1vS89WlXhV7OevhJdzf0cvOiYClnpTqkn=s240-p-k-rw-no" },
-        { name: "Bilal Bakessou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1854-1760996479.png" },
-        { name: "Bouchaib El Haidi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1896-1760996532.png" },
-        { name: "Brahim El Habchi", imageUrl: "https://scontent-mad2-1.xx.fbcdn.net/v/t39.30808-6/469168850_1789191808556973_5190474818614710001_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=53a332&_nc_eui2=AeFfxGcj4AR82ATwiIe1CxrskA851u2jreaQDznW7aOt5jld2NsL8YAwdgJAVb6KdQwJjG1nGQoUdff_FoWwgLx3&_nc_ohc=xHCc-zk-doIQ7kNvwFTDEPm&_nc_oc=AdqnuAivpEYPLLKH5cJ-zZ6VETOu-tdoROhB67BcA3UMPtiRrm-t-tahY5cn8D6DQ60&_nc_zt=23&_nc_ht=scontent-mad2-1.xx&_nc_gid=gm---eOAvEc9g3AE3cb2bQ&_nc_ss=7a32e&oh=00_AfwbT5zmSKTTUFs6mafLLkJQoyv_jaQmFgVrdSnMdkfo7w&oe=69C99379" },
-        { name: "Houssam YK", imageUrl: "https://media.licdn.com/dms/image/v2/D4D03AQHwggSVOjzOeA/profile-displayphoto-crop_800_800/B4DZxti_6TGUAI-/0/1771364420091?e=1775692800&v=beta&t=IchmKEC2QQRbQJXX1M1mNFiBFyRECtWiFRyBptmOE7E" },
-        { name: "Houssam Mirrou", imageUrl: "https://scontent-mad1-1.xx.fbcdn.net/v/t39.30808-6/495503331_3004983086318887_3441187539073219485_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=53a332&_nc_eui2=AeEw7HPrGjQjdmszirw94D9CNusIVgT52NA26whWBPnY0N7tcu9ePdhE2oxD6AvsLMQW8892UO_2_x4rmoX_Ccy2&_nc_ohc=N_xwDxQhCW0Q7kNvwE_BSoW&_nc_oc=Adpg2VuhrCfr3VEwq3qMXOf4QCmwDUn4yxx6uHvCvXSWlSo9iHr27RTr9wgBrUBzmDs&_nc_zt=23&_nc_ht=scontent-mad1-1.xx&_nc_gid=cYsMv21Zs2nVAby9iS52OQ&_nc_ss=7a32e&oh=00_Afyv1pfoT6yjH4P5LBHFzmlYCQI3JpCmoypU029KaqBrBQ&oe=69C9A4C5" },
-        { name: "Houssam Largou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1755-1760996446.png" },
-        { name: "Kaoutar Zahir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1666-1760996336.png" },
-        { name: "Khadija El Haddad", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1865-1760996489.png" },
-        { name: "Lahcen Ait Maskour", imageUrl: "https://lh3.googleusercontent.com/a-/ALV-UjVtROtjqIYApo2G0PNdsVmhFpBOLIrspXNTqzOQ8FsTC8kKwTqz=s240-p-k-rw-no" },
-        { name: "Lamia Bane", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1856-1760996481.png" },
-        { name: "Mohamed Rahoumi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1783-1760996473.png" },
-        { name: "Mohamed reda chakir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1664-1760996332.png" },
-        { name: "Mouad El Alli", imageUrl: "https://media.licdn.com/dms/image/v2/D5603AQE264b6jm8xwg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1692223529064?e=1776297600&v=beta&t=Mffzs1IwFt5krlkV7egZXTAHqVzHx4YBSlL9l4ntGu8" },
-        { name: "Noureddine Zouana", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1879-1760996511.png" },
-        { name: "Olaya Azzam", imageUrl: "https://media.licdn.com/dms/image/v2/D5635AQHEIZn7Py2Jgw/profile-framedphoto-shrink_800_800/B56ZwyvaQGHQAg-/0/1770377815319?e=1775044800&v=beta&t=Xu-4zINGtFyKIMA5C5mDJxjyYTr9ec40YpOycgaaNYQ" },
+        { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile//1545-1760996241.png" },
+        { name: "Abderrahim Elgmouri", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1875-1760996503.png" },
+        { name: "Abderrazak Errifaouy", imageUrl: "https://intranet.youcode.ma/storage/users/profile/764-1760996158.png" },
+        { name: "Amine Lebrini", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1778-1760996463.png" },
+        { name: "Ayoub Houdda", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1656-1760996326.png" },
+        { name: "Badr Eddine Slaoui", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1665-1760996334.png" },
+        { name: "Bilal Bakessou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1854-1760996479.png" },
+        { name: "Bouchaib El Haidi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1896-1760996532.png" },
+        { name: "Brahim El Habchi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1775-1760996461.png" },
+        { name: "Houssam YK", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1720-1760996396.png" },
+        { name: "Houssam Mirrou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1756-1760996448.png" },
+        { name: "Houssam Largou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1755-1760996446.png" },
+        { name: "Kaoutar Zahir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1666-1760996336.png" },
+        { name: "Khadija El Haddad", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1865-1760996489.png" },
+        { name: "Lahcen Ait Maskour", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1542-1760996237.png" },
+        { name: "Lamia Bane", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1856-1760996481.png" },
+        { name: "Mohamed Rahoumi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1783-1760996473.png" },
+        { name: "Mohamed reda chakir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1664-1760996332.png" },
+        { name: "Mouad El Alli", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1722-1760996401.png" },
+        { name: "Noureddine Zouana", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1879-1760996511.png" },
+        { name: "Olaya Azzam", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1744-1760996438.png" },
         { name: "Saad Haimeur", imageUrl: "https://media.licdn.com/dms/image/v2/D4E03AQHg8vsMEiI6Fw/profile-displayphoto-crop_800_800/B4EZgof51cGwAM-/0/1753026111079?e=1775692800&v=beta&t=9-B1jmrV-5jhrzBBacM6th8IgCA7FT-QdIKY8C5Bdy0" },
-        { name: "Saadia Ajbbar", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1643-1760996313.png" },
-        { name: "Saoui Mouna", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/2053-1760996607.png" },
-        { name: "Taha Irhmourra", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1774-1760996459.png" },
-        { name: "Yassine Nmila", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1712-1760996382.png" },
-        { name: "Zouhair Folki", imageUrl: "https://intranet.youcode.ma/storage/users/profile/thumbnail/1701-1760996370.png" }
+        { name: "Saadia Ajbbar", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1643-1760996313.png" },
+        { name: "Saoui Mouna", imageUrl: "https://intranet.youcode.ma/storage/users/profile/2053-1760996607.png" },
+        { name: "Taha Irhmourra", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1774-1760996459.png" },
+        { name: "Yassine Nmila", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1712-1760996382.png" },
+        { name: "Zouhair Folki", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1701-1760996370.png" }
       ];
 
-      let currentDisplayIndex = 1;
+      let currentDisplayIndex = 0;
+      let studentImageElements = [];
 
-      // Simple update function without loading state
+      // Create all 27 img elements with their URLs (no src editing later)
+      function createAllStudentImages() {
+        learnerData.forEach((student, index) => {
+          const img = document.createElement('img');
+          img.id = `student_img_${index}`;
+          img.src = student.imageUrl;
+          img.alt = student.name;
+          img.className = 'student-img';
+          img.setAttribute('data-student-index', index);
+          img.setAttribute('data-student-name', student.name);
+          
+          // Add to container
+          studentImagesContainer.appendChild(img);
+          studentImageElements.push(img);
+        });
+        console.log(`Created ${studentImageElements.length} student images`);
+      }
+
+      // Show only the current learner's image, hide all others
+      function showCurrentLearnerImage(index) {
+        // Hide all images first
+        studentImageElements.forEach(img => {
+          img.classList.remove('visible');
+        });
+        
+        // Show the current image
+        if (studentImageElements[index]) {
+          studentImageElements[index].classList.add('visible');
+        }
+      }
+
+      // Update learner display
       function updateLearnerDisplay() {
-        const currentLearner = learnerData[currentDisplayIndex % learnerData.length];
+        const studentIndex = currentDisplayIndex % learnerData.length;
+        const currentLearner = learnerData[studentIndex];
         
         // Update name
         learnerSpan.innerText = currentLearner.name;
         
-        // Update image directly from local folder
-        studentAvatar.src = currentLearner.imageUrl;
+        // Show only this student's image
+        showCurrentLearnerImage(studentIndex);
         
         currentDisplayIndex++;
       }
@@ -428,8 +485,11 @@
         return false;
       }
 
-      // Initialize without loading state
+      // Initialize immediately - create all images and start
       function initialize() {
+        // Create all 27 img elements with their URLs (no src modification)
+        createAllStudentImages();
+        
         if (isExpired()) {
           showFinalScreen();
           return;
@@ -437,6 +497,12 @@
 
         // Start countdown
         updateNumbersAndMaybeFinal();
+        
+        // Display first student (image and name)
+        const firstStudent = learnerData[0];
+        learnerSpan.innerText = firstStudent.name;
+        showCurrentLearnerImage(0);
+        currentDisplayIndex = 1;
 
         // Timer: update countdown every second
         const timerInterval = setInterval(() => {
@@ -449,7 +515,7 @@
           }
         }, 1000);
 
-        // Rotate learner (name + image) every 3 seconds - instant update
+        // Rotate learner (name + image) every 3 seconds
         const learnerInterval = setInterval(() => {
           if (!isExpired()) {
             updateLearnerDisplay();
@@ -459,7 +525,7 @@
         }, 3000);
       }
 
-      // Start the application immediately
+      // Start immediately when page loads
       initialize();
     })();
   </script>
