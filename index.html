@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fil Noir 2026 · learners roll call · visual gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Fil Noir 2026 · CRITICAL WARNING · countdown zero</title>
   <!-- Tailwind + Inter refined -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * {
       font-family: 'Inter', sans-serif;
@@ -19,145 +16,182 @@
     }
 
     body {
-      background: #0b0d17;
+      background: #0a0c15;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      background-image: radial-gradient(circle at 100% 0%, #1f2b3f, #03050b 70%);
       overflow-x: hidden;
     }
 
-    /* subtle orbs – more elegant */
-    .orb-elegant {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle at 20% 30%, #2b4a7a, #0e1a2b);
-      filter: blur(100px);
-      z-index: 0;
-      opacity: 0.25;
-      animation: orbMove 30s infinite alternate;
+    /* BBC cinematic background overlay — MUCH MORE VISIBLE */
+    .bbc-bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://ichef.bbci.co.uk/images/ic/1376x774/p0470shl.jpg.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.65;
+      z-index: 1;
+      pointer-events: none;
+      filter: grayscale(0.2) contrast(1.1) brightness(0.85);
+    }
+    
+    /* Dark gradient overlay to keep text readable but image visible */
+    .dark-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.7) 100%);
+      z-index: 2;
+      pointer-events: none;
     }
 
-    .orb-elegant.left {
-      width: 70vmax;
-      height: 70vmax;
+    /* warning atmosphere — deep crimson pulse (behind image) */
+    .warning-orb {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff2e5e, #7f1a1a);
+      filter: blur(120px);
+      z-index: 0;
+      opacity: 0.4;
+      animation: pulseWarning 3s infinite alternate;
+      pointer-events: none;
+    }
+
+    .warning-orb.left {
+      width: 80vmax;
+      height: 80vmax;
       left: -20%;
       top: -20%;
     }
 
-    .orb-elegant.right {
+    .warning-orb.right {
       width: 60vmin;
       height: 60vmin;
       right: 0%;
       bottom: 0%;
-      background: #2f2645;
-      animation-duration: 40s;
+      background: #e11d48;
+      animation-duration: 2s;
+      opacity: 0.5;
     }
 
-    @keyframes orbMove {
-      0% {
-        transform: translate(0, 0) scale(1);
-      }
-
-      100% {
-        transform: translate(6%, -4%) scale(1.2);
-      }
+    @keyframes pulseWarning {
+      0% { transform: scale(1); opacity: 0.3; }
+      100% { transform: scale(1.25); opacity: 0.6; filter: blur(140px); }
     }
 
-    /* main card — cleaner, softer dark glass, refined radius */
-    .card-refined {
-      background: rgba(12, 18, 28, 0.75);
-      backdrop-filter: blur(18px) saturate(220%);
-      -webkit-backdrop-filter: blur(18px) saturate(220%);
-      border: 1px solid rgba(90, 150, 255, 0.15);
+    /* main card — semi-transparent to let background show through */
+    .card-warning {
+      background: rgba(8, 5, 10, 0.82);
+      backdrop-filter: blur(12px) saturate(180%);
+      border: 3px solid #ff1f5a;
+      box-shadow: 0 0 60px rgba(255, 30, 86, 0.6), 0 0 0 2px #ff8da1 inset;
       border-radius: 3.5rem;
-      box-shadow: 0 40px 80px -30px #000, 0 0 0 1px #1f3d70 inset;
       position: relative;
       z-index: 30;
+      transition: all 0.2s;
+      animation: borderFlash 0.9s infinite;
     }
 
-    /* countdown tiles — smoother, with better contrast */
-    .tile-premium {
-      background: #0f1a28;
+    @keyframes borderFlash {
+      0% { border-color: #ff1f5a; box-shadow: 0 0 35px rgba(255, 31, 90, 0.6); }
+      50% { border-color: #ff6b8f; box-shadow: 0 0 70px rgba(255, 107, 143, 0.9); }
+      100% { border-color: #ff1f5a; box-shadow: 0 0 35px rgba(255, 31, 90, 0.6); }
+    }
+
+    /* countdown tiles — ultra visible with strong glow */
+    .tile-emergency {
+      background: #1c1018dd;
       border-radius: 2.2rem;
-      padding: 2rem 0.2rem;
-      border: 1px solid #253549;
-      box-shadow: 0 15px 30px -20px #000;
-      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+      padding: 2rem 0.5rem;
+      border: 2px solid #ff4d6d;
+      box-shadow: 0 10px 30px -5px #000, 0 0 25px #ff3a5e;
+      transition: all 0.25s ease;
       text-align: center;
+      transform: scale(1);
+      backdrop-filter: blur(4px);
     }
 
-    .tile-premium:hover {
-      border-color: #4f7eb3;
-      background: #132235;
-      transform: translateY(-6px);
-      box-shadow: 0 30px 40px -25px #1e4c9e;
+    .tile-emergency:hover {
+      border-color: #ffb3c6;
+      background: #2e1722ee;
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 0 45px #ff5e7e;
     }
 
-    .digit-clean {
-      font-size: 4.5rem;
-      font-weight: 700;
+    .digit-danger {
+      font-size: 5rem;
+      font-weight: 900;
       color: #ffffff;
-      text-shadow: 0 0 25px #3f7bc0;
+      text-shadow: 0 0 35px #ff2e5e, 0 0 10px #ff8da1;
       line-height: 1;
       letter-spacing: -0.02em;
     }
 
     .digit-label {
-      color: #99b8d4;
-      font-size: 0.8rem;
-      letter-spacing: 0.3em;
+      color: #ffb7c7;
+      font-size: 0.85rem;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
-      margin-top: 0.8rem;
-      font-weight: 400;
+      margin-top: 0.9rem;
+      font-weight: 700;
     }
 
-    /* learners display container — elegant with image integration */
-    .learners-premium {
-      background: #0d1422;
-      border: 1.5px solid #2d4670;
+    /* learners card — maximum visibility red alert */
+    .learners-alert {
+      background: #0a0510cc;
+      border: 3px solid #ff2e5e;
       border-radius: 5rem;
-      padding: 1.2rem 2rem;
-      box-shadow: 0 0 30px #1e3f6e, 0 0 0 1px #5f8fd0 inset;
+      padding: 1.5rem 2.2rem;
+      box-shadow: 0 0 55px #ff2e5e, inset 0 0 12px #ff6b8f;
       display: inline-flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 1.5rem;
-      transition: box-shadow 0.3s;
       max-width: 95%;
-      min-width: 320px;
-      position: relative;
+      min-width: 340px;
+      transition: all 0.2s;
+      animation: subtlePulseBg 0.9s infinite;
+      backdrop-filter: blur(8px);
     }
 
-    /* All student images container - position relative for stacking */
+    @keyframes subtlePulseBg {
+      0% { box-shadow: 0 0 25px #ff1f5a; border-color: #ff2e5e; }
+      100% { box-shadow: 0 0 65px #ff6b8f; border-color: #ff809e; }
+    }
+
     .student-images-container {
       position: relative;
-      width: 150px;
-      height: 150px;
+      width: 170px;
+      height: 170px;
     }
 
-    /* Student image base style */
     .student-img {
       position: absolute;
       top: 0;
       left: 0;
-      width: 150px;
-      height: 150px;
+      width: 170px;
+      height: 170px;
       border-radius: 100%;
       object-fit: cover;
-      border: 3px solid #4f7eb3;
-      box-shadow: 0 0 30px rgba(79, 126, 179, 0.6);
-      background: #1f2a3a;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      border: 4px solid #ff6b8f;
+      box-shadow: 0 0 45px rgba(255, 107, 143, 0.9);
+      background: #2a1420;
+      transition: transform 0.3s ease, opacity 0.4s ease;
       opacity: 0;
       visibility: hidden;
       transform: scale(0.9);
     }
 
-    /* Visible image - only the current learner */
     .student-img.visible {
       opacity: 1;
       visibility: visible;
@@ -165,14 +199,15 @@
     }
 
     .student-img:hover {
-      transform: scale(1.05);
-      border-color: #8bbaff;
+      transform: scale(1.07);
+      border-color: #ffd966;
+      box-shadow: 0 0 60px #ffb347;
     }
 
-    .learners-text-glow {
-      font-size: 2rem;
-      font-weight: 600;
-      background: linear-gradient(145deg, #ffffff, #b8d4ff);
+    .learners-text-warning {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(145deg, #fff5f5, #ffdddd);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -180,17 +215,22 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      filter: drop-shadow(0 0 20px #5f9eff);
+      filter: drop-shadow(0 0 20px #ff3a5e);
     }
 
-    /* Circular progress indicator */
+    /* circular progress with enhanced visibility */
     .progress-circle-container {
       position: fixed;
       top: 20px;
       right: 20px;
-      z-index: 100;
-      width: 80px;
-      height: 80px;
+      z-index: 200;
+      width: 90px;
+      height: 90px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 50%;
+      backdrop-filter: blur(8px);
+      padding: 5px;
+      border: 1px solid #ff4d6d;
     }
 
     .progress-circle {
@@ -201,14 +241,14 @@
 
     .progress-circle-bg {
       fill: none;
-      stroke: #1f2a3a;
-      stroke-width: 6;
+      stroke: #4a1e2c;
+      stroke-width: 7;
     }
 
     .progress-circle-fill {
       fill: none;
-      stroke: url(#gradient);
-      stroke-width: 6;
+      stroke: url(#redGradient);
+      stroke-width: 8;
       stroke-linecap: round;
       transition: stroke-dasharray 0.5s ease;
     }
@@ -219,149 +259,138 @@
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 0 10px #3f7bc0;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #ffdce6;
+      text-shadow: 0 0 15px #ff1f5a;
     }
 
     .progress-label {
       font-size: 0.7rem;
-      color: #99b8d4;
-      letter-spacing: 0.05em;
+      color: #ffadc2;
+      font-weight: bold;
     }
 
     @media (max-width: 640px) {
-      .learners-premium {
-        padding: 0.8rem 1.2rem;
+      .learners-alert {
+        padding: 1rem 1.5rem;
         gap: 1rem;
         border-radius: 3rem;
-        min-width: 260px;
+        min-width: 280px;
       }
-
-      .student-images-container {
-        width: 100px;
-        height: 100px;
-      }
-
-      .student-img {
-        width: 100px;
-        height: 100px;
-      }
-
-      .learners-text-glow {
-        font-size: 1.2rem;
-        white-space: normal;
-        text-align: center;
-      }
-
-      .digit-clean {
-        font-size: 3.2rem;
-      }
-
-      .card-refined {
-        border-radius: 2.5rem;
-        padding: 1.5rem;
-      }
-
-      .progress-circle-container {
-        width: 60px;
-        height: 60px;
-        top: 10px;
-        right: 10px;
-      }
-
-      .progress-text {
-        font-size: 0.9rem;
-      }
-
-      .progress-label {
-        font-size: 0.55rem;
-      }
+      .student-images-container { width: 110px; height: 110px; }
+      .student-img { width: 110px; height: 110px; }
+      .learners-text-warning { font-size: 1.3rem; white-space: normal; text-align: center; }
+      .digit-danger { font-size: 3.2rem; }
+      .card-warning { border-radius: 2rem; padding: 1.5rem; }
+      .progress-circle-container { width: 70px; height: 70px; top: 10px; right: 10px; }
+      .progress-text { font-size: 1.1rem; }
+      .tile-emergency { padding: 1.2rem 0.2rem; }
     }
 
-    /* HYK signature — refined */
-    .hyk-sleek {
-      font-weight: 300;
-      font-size: 1.5rem;
+    .hyk-warning {
+      font-weight: 400;
+      font-size: 1.7rem;
       letter-spacing: 0.6rem;
-      background: linear-gradient(145deg, #b0d0ff, #ffffff);
+      background: linear-gradient(145deg, #ffcedb, #ffffff);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      border-left: 3px solid #3b82f6;
+      border-left: 4px solid #ff3b6f;
       padding-left: 1.2rem;
+      text-shadow: 0 0 5px #ff2e5e;
     }
 
-    /* final message elegant dark */
-    .final-elegant {
-      background: #0d1727;
+    .final-emergency {
+      background: #0f0710dd;
       border-radius: 4rem;
-      padding: 3.5rem 4rem;
-      border: 1px solid #3f6a9e;
-      box-shadow: 0 0 100px #1b3a5f;
+      padding: 3.5rem 2rem;
+      border: 4px solid #ff2e5e;
+      box-shadow: 0 0 120px #ff1f5a, inset 0 0 30px #ff8c6b;
       text-align: center;
-      animation: fadeFinal 1s ease;
+      animation: alarmBlink 0.7s infinite alternate;
+      backdrop-filter: blur(8px);
     }
 
-    @keyframes fadeFinal {
-      0% {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
+    @keyframes alarmBlink {
+      0% { border-color: #ff1f5a; box-shadow: 0 0 40px #ff1f5a; background: #0a0510cc; }
+      100% { border-color: #ff7b9e; box-shadow: 0 0 110px #ff4d6d; background: #1f0a15cc; }
     }
 
-    .footer-sleek {
-      border-top: 1px solid #1e2f40;
-      color: #7189a6;
+    .footer-warning {
+      border-top: 2px solid #ff4d6d;
+      color: #ffbfcf;
+      font-weight: 500;
     }
 
-    /* fade-in */
     .appear-smooth {
-      animation: appear 1.5s ease forwards;
+      animation: appear 1s ease forwards;
     }
 
     @keyframes appear {
-      0% {
-        opacity: 0;
-        transform: translateY(25px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      0% { opacity: 0; transform: translateY(25px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hide scrollbar for all elements */
-    *::-webkit-scrollbar {
-      display: none;
-    }
+    /* hide scroll */
+    *::-webkit-scrollbar { display: none; }
+    * { -ms-overflow-style: none; scrollbar-width: none; }
 
-    * {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+    .glow-text-critical {
+      text-shadow: 0 0 30px #ff2e5e, 0 0 15px #ff6b8f;
+    }
+    .badge-critical {
+      animation: pulseBadge 1s infinite;
+      font-weight: 800;
+    }
+    @keyframes pulseBadge {
+      0% { background-color: #7f1a2e; border-color: #ff4d6d; }
+      100% { background-color: #e11d48; border-color: #ffb3c6; }
+    }
+    
+    /* sound control button */
+    .sound-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 200;
+      background: #1c1018ee;
+      border: 2px solid #ff4d6d;
+      border-radius: 50px;
+      padding: 10px 20px;
+      color: #ffb7c7;
+      font-weight: bold;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s;
+      font-size: 14px;
+    }
+    .sound-btn:hover {
+      background: #ff2e5e;
+      color: white;
+      transform: scale(1.05);
     }
   </style>
 </head>
-
 <body>
 
-  <div class="orb-elegant left"></div>
-  <div class="orb-elegant right"></div>
+  <!-- Background layers: BBC image now much more visible + dark overlay for readability -->
+  <div class="bbc-bg-overlay"></div>
+  <div class="dark-overlay"></div>
+  
+  <div class="warning-orb left"></div>
+  <div class="warning-orb right"></div>
 
-  <!-- Circular Progress Indicator -->
+  <!-- Manual sound control button (user-friendly) -->
+  <div class="sound-btn" id="soundToggleBtn">🔊 ENABLE WARNING SOUND</div>
+
+  <!-- progress ring indicator red alert ultra visible -->
   <div class="progress-circle-container">
     <svg class="progress-circle" viewBox="0 0 100 100">
       <defs>
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#3b82f6" />
-          <stop offset="100%" stop-color="#8bbaff" />
+        <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff1f5a" />
+          <stop offset="100%" stop-color="#ff90aa" />
         </linearGradient>
       </defs>
       <circle class="progress-circle-bg" cx="50" cy="50" r="45" />
@@ -369,134 +398,58 @@
     </svg>
     <div class="progress-text">
       <span id="progressPercentage">0</span><span>%</span>
-      <div class="progress-label">SEASON</div>
+      <div class="progress-label">URGENCY</div>
     </div>
   </div>
 
-  <div class="relative z-40 w-full max-w-5xl p-5 appear-smooth">
-    <div class="card-refined p-9 md:p-13 lg:p-14">
+  <div class="relative z-40 w-full max-w-6xl p-5 appear-smooth">
+    <div class="card-warning p-10 md:p-14 lg:p-16">
 
-      <!-- header: refined, clean -->
-      <div class="flex flex-wrap items-center justify-between gap-5 mb-10">
-        <span
-          class="text-xs font-medium text-blue-400/70 tracking-[0.3em] bg-[#101b2b] px-6 py-3 rounded-full border border-blue-900/50 uppercase">Fil
-          Noir · YouCode</span>
+      <!-- header warning red tags more visible -->
+      <div class="flex flex-wrap items-center justify-between gap-5 mb-12">
+        <span class="badge-critical text-sm font-black text-red-100 tracking-[0.3em] bg-red-950/90 px-7 py-3 rounded-full border-2 border-red-500 uppercase shadow-lg shadow-red-900/50">⚠️ FIL NOIR · CRITICAL COUNTDOWN ⚠️</span>
         <div class="flex items-center gap-5">
-          <span class="text-sm text-blue-400/40">crafted by</span>
-          <span class="hyk-sleek">HYK</span>
+          <span class="text-base text-red-300/80 font-semibold">crafted by</span>
+          <span class="hyk-warning">HYK</span>
         </div>
       </div>
 
-      <!-- main countdown area -->
       <div id="mainUI">
-        <!-- title with better balance -->
         <div class="text-center">
-          <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight">Fil Noir <span
-              class="text-blue-400 font-light">2026</span></h1>
-          <p class="text-gray-400 mt-3 text-base md:text-lg">The dark day · may 5</p>
+          <h1 class="text-6xl md:text-8xl font-black text-white tracking-tight glow-text-critical">Fil Noir <span class="text-red-500 drop-shadow-[0_0_25px_#ff4d6d]">2026</span></h1>
+          <p class="text-red-300/90 mt-4 text-xl md:text-2xl font-mono tracking-wider font-bold animate-pulse">⚠️ THE DARK DAY · APRIL 27 · NO TIME LEFT ⚠️</p>
+          <div class="inline-block mt-4 bg-black/60 text-red-300 text-sm px-5 py-2 rounded-full border-2 border-red-600/80 font-bold tracking-wide">⚠️ WARNING: ABDELAZIZ AIT HASSAN REMOVED — PURGED ⚠️</div>
         </div>
 
-        <!-- LEARNERS DISPLAY with all images stacked, only current visible -->
-        <div class="flex justify-center my-10">
-          <div class="learners-premium" id="learnerContainer">
-            <!-- Container for all student images -->
+        <!-- LEARNERS DISPLAY with high alert red flash effect + max visibility -->
+        <div class="flex justify-center my-12">
+          <div class="learners-alert" id="learnerContainer">
             <div class="student-images-container" id="studentImagesContainer"></div>
-            <span class="learners-text-glow" id="learnerMessage">Abdelilah Isswa</span>
+            <span class="learners-text-warning" id="learnerMessage">Abdelilah Isswa</span>
           </div>
         </div>
 
-        <!-- countdown tiles (4) -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-7 mt-8">
-          <div class="tile-premium">
-            <span class="digit-clean" id="days">00</span>
-            <span class="digit-label">DAYS</span>
-          </div>
-          <div class="tile-premium">
-            <span class="digit-clean" id="hours">00</span>
-            <span class="digit-label">HOURS</span>
-          </div>
-          <div class="tile-premium">
-            <span class="digit-clean" id="minutes">00</span>
-            <span class="digit-label">MINUTES</span>
-          </div>
-          <div class="tile-premium">
-            <span class="digit-clean" id="seconds">00</span>
-            <span class="digit-label">SECONDS</span>
-          </div>
+        <!-- countdown tiles emergency style with bigger digits -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8 mt-10">
+          <div class="tile-emergency"><span class="digit-danger" id="days">00</span><span class="digit-label">DAYS</span></div>
+          <div class="tile-emergency"><span class="digit-danger" id="hours">00</span><span class="digit-label">HOURS</span></div>
+          <div class="tile-emergency"><span class="digit-danger" id="minutes">00</span><span class="digit-label">MINUTES</span></div>
+          <div class="tile-emergency"><span class="digit-danger" id="seconds">00</span><span class="digit-label">SECONDS</span></div>
         </div>
       </div>
 
-      <!-- final message container (hidden) -->
-      <div id="finalUI" class="hidden w-full flex justify-center py-6"></div>
+      <div id="finalUI" class="hidden w-full flex justify-center py-8"></div>
 
-      <!-- footer with YouCode mention -->
-      <div
-        class="footer-sleek mt-14 pt-8 text-center text-sm text-gray-500 flex flex-wrap items-center justify-center gap-5">
-        <span>✦</span>
-        <span>Fil Noir of YouCode</span>
-        <span>✦</span>
-        <span class="text-blue-400/80">Debuggers</span>
-        <span>✦</span>
+      <div class="footer-warning mt-16 pt-8 text-center text-base flex flex-wrap items-center justify-center gap-6 font-semibold">
+        <span>⚠️</span><span>FIL NOIR · YOUCODE · DEADLINE ZERO</span><span>⚠️</span>
+        <span class="text-red-400 font-extrabold animate-pulse tracking-wider">CRITICAL ALERT: APRIL 27</span><span>⚠️</span>
       </div>
     </div>
   </div>
 
   <script>
     (function () {
-      // ---------- Dates ----------
-      // Target Date: May 5, 2026
-      const targetDate = new Date(2026, 4, 5, 0, 0, 0);
-      // Season start: October 7, 2025
-      const seasonStart = new Date(2025, 9, 7, 0, 0, 0);
-      // Season end: May 5, 2026
-      const seasonEnd = new Date(2026, 4, 5, 0, 0, 0);
-
-      const mainDiv = document.getElementById('mainUI');
-      const finalDiv = document.getElementById('finalUI');
-
-      const daysSpan = document.getElementById('days');
-      const hoursSpan = document.getElementById('hours');
-      const minutesSpan = document.getElementById('minutes');
-      const secondsSpan = document.getElementById('seconds');
-
-      const learnerSpan = document.getElementById('learnerMessage');
-      const studentImagesContainer = document.getElementById('studentImagesContainer');
-
-      // Progress circle elements
-      const progressFill = document.getElementById('progressFill');
-      const progressPercentage = document.getElementById('progressPercentage');
-      
-      // Circle circumference: 2 * π * r (r = 45)
-      const circumference = 2 * Math.PI * 45;
-
-      // Calculate season percentage
-      function calculateSeasonPercentage() {
-        const now = Date.now();
-        
-        // If we haven't started yet
-        if (now <= seasonStart.getTime()) {
-          return 0;
-        }
-        // If season is complete
-        if (now >= seasonEnd.getTime()) {
-          return 100;
-        }
-        
-        const totalDuration = seasonEnd.getTime() - seasonStart.getTime();
-        const elapsed = now - seasonStart.getTime();
-        const percentage = (elapsed / totalDuration) * 100;
-        return Math.min(100, Math.max(0, percentage));
-      }
-
-      // Update progress circle
-      function updateProgressCircle() {
-        const percentage = calculateSeasonPercentage();
-        const dashLength = (percentage / 100) * circumference;
-        progressFill.setAttribute('stroke-dasharray', `${dashLength}, ${circumference}`);
-        progressPercentage.innerText = Math.floor(percentage);
-      }
-
-      // LEARNERS LIST with image URLs
+      // LEARNER DATA: Abdelaziz Ait Hassain removed
       const learnerData = [
         { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile//1545-1760996241.png" },
         { name: "Abderrahim Elgmouri", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1875-1760996503.png" },
@@ -519,7 +472,7 @@
         { name: "Mouad El Alli", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1722-1760996401.png" },
         { name: "Noureddine Zouana", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1879-1760996511.png" },
         { name: "Olaya Azzam", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1744-1760996438.png" },
-        { name: "Saad Haimeur", imageUrl: "https://media.licdn.com/dms/image/v2/D4E03AQHg8vsMEiI6Fw/profile-displayphoto-crop_800_800/B4EZgof51cGwAM-/0/1753026111079?e=1775692800&v=beta&t=9-B1jmrV-5jhrzBBacM6th8IgCA7FT-QdIKY8C5Bdy0" },
+        { name: "Saad Haimeur", imageUrl: "https://media.licdn.com/dms/image/v2/D4E03AQHg8vsMEiI6Fw/profile-displayphoto-scale_400_400/B4EZgof51cGwAk-/0/1753026111159?e=1777507200&v=beta&t=rfjFQBgjp1btV8tpPdfNEU5YRnb5LroWWmmfoVTpu2Y" },
         { name: "Saadia Ajbbar", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1643-1760996313.png" },
         { name: "Saoui Mouna", imageUrl: "https://intranet.youcode.ma/storage/users/profile/2053-1760996607.png" },
         { name: "Taha Irhmourra", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1774-1760996459.png" },
@@ -527,77 +480,193 @@
         { name: "Zouhair Folki", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1701-1760996370.png" }
       ];
 
+      const targetDate = new Date(2026, 3, 27, 0, 0, 0);
+      const seasonStart = new Date(2025, 9, 7, 0, 0, 0);
+      const seasonEnd = new Date(2026, 4, 5, 0, 0, 0);
+
+      const mainDiv = document.getElementById('mainUI');
+      const finalDiv = document.getElementById('finalUI');
+      const daysSpan = document.getElementById('days');
+      const hoursSpan = document.getElementById('hours');
+      const minutesSpan = document.getElementById('minutes');
+      const secondsSpan = document.getElementById('seconds');
+      const learnerSpan = document.getElementById('learnerMessage');
+      const studentImagesContainer = document.getElementById('studentImagesContainer');
+      const progressFill = document.getElementById('progressFill');
+      const progressPercentage = document.getElementById('progressPercentage');
+      const circumference = 2 * Math.PI * 45;
+      const soundBtn = document.getElementById('soundToggleBtn');
+
+      // SOUND MANAGEMENT - FIXED: using Audio element for simpler reliable playback
+      let soundEnabled = false;
+      let audioElement = null;
+      
+      function initSound() {
+        // Create audio element with sound.mp3 (ensure file exists in same directory)
+        audioElement = new Audio('./sound.mp3');
+        audioElement.loop = false;
+        audioElement.volume = 0.6;
+        audioElement.preload = 'auto';
+        
+        // Load the audio
+        audioElement.load();
+        
+        // Test if sound can play
+        audioElement.addEventListener('canplaythrough', () => {
+          console.log('Sound loaded and ready');
+        });
+        
+        audioElement.addEventListener('error', (e) => {
+          console.warn('Sound file error - make sure sound.mp3 exists in the same folder as this HTML file');
+          soundBtn.textContent = '🔇 SOUND MISSING (add sound.mp3)';
+          soundBtn.style.opacity = '0.6';
+        });
+      }
+      
+      function playWarningSound() {
+        if (!soundEnabled || !audioElement) return;
+        try {
+          // Reset and play
+          audioElement.currentTime = 0;
+          audioElement.play().catch(err => {
+            console.log('Autoplay blocked, user interaction needed');
+            // If play fails, show hint
+            soundBtn.textContent = '🔊 CLICK TO ENABLE SOUND';
+          });
+        } catch(e) { console.warn(e); }
+      }
+      
+      function enableSound() {
+        if (!audioElement) {
+          initSound();
+        }
+        soundEnabled = true;
+        // Try to play a test sound to unlock audio context
+        if (audioElement) {
+          audioElement.play().then(() => {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+            soundBtn.textContent = '🔊 SOUND ACTIVE';
+            soundBtn.style.background = '#ff2e5e';
+          }).catch(err => {
+            console.log('Still blocked, but enabled flag set');
+            soundBtn.textContent = '🔊 SOUND READY (click again)';
+          });
+        }
+      }
+      
+      // Manual button to enable sound (bypass auto-play restrictions)
+      soundBtn.addEventListener('click', () => {
+        if (!audioElement) initSound();
+        if (audioElement) {
+          soundEnabled = true;
+          audioElement.play().then(() => {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+            soundBtn.textContent = '🔊 SOUND ACTIVE';
+            soundBtn.style.background = '#ff2e5e';
+            // Also play a demo sound
+            playWarningSound();
+          }).catch(e => {
+            console.log('User interaction needed');
+            soundBtn.textContent = '🔊 SOUND ENABLED (click page)';
+            soundEnabled = true;
+          });
+        }
+      });
+      
+      // Also enable on any body click for convenience
+      document.body.addEventListener('click', () => {
+        if (!soundEnabled && audioElement) {
+          soundEnabled = true;
+          soundBtn.textContent = '🔊 SOUND ACTIVE';
+          soundBtn.style.background = '#ff2e5e';
+        }
+      }, { once: true });
+      
+      // Initialize sound on load
+      initSound();
+
+      function calculateSeasonPercentage() {
+        const now = Date.now();
+        if (now <= seasonStart.getTime()) return 0;
+        if (now >= seasonEnd.getTime()) return 100;
+        const totalDuration = seasonEnd.getTime() - seasonStart.getTime();
+        const elapsed = now - seasonStart.getTime();
+        let percent = (elapsed / totalDuration) * 100;
+        return Math.min(100, Math.max(0, percent));
+      }
+
+      function updateProgressCircle() {
+        const percentage = calculateSeasonPercentage();
+        const dashLength = (percentage / 100) * circumference;
+        progressFill.setAttribute('stroke-dasharray', `${dashLength}, ${circumference}`);
+        progressPercentage.innerText = Math.floor(percentage);
+      }
+
       let currentDisplayIndex = 0;
       let studentImageElements = [];
 
-      // Create all 27 img elements with their URLs (no src editing later)
       function createAllStudentImages() {
-        learnerData.forEach((student, index) => {
+        learnerData.forEach((student, idx) => {
           const img = document.createElement('img');
-          img.id = `student_img_${index}`;
           img.src = student.imageUrl;
           img.alt = student.name;
           img.className = 'student-img';
-          img.setAttribute('data-student-index', index);
-          img.setAttribute('data-student-name', student.name);
-          
-          // Add to container
           studentImagesContainer.appendChild(img);
           studentImageElements.push(img);
         });
-        console.log(`Created ${studentImageElements.length} student images`);
       }
 
-      // Show only the current learner's image, hide all others
       function showCurrentLearnerImage(index) {
-        // Hide all images first
-        studentImageElements.forEach(img => {
-          img.classList.remove('visible');
-        });
-        
-        // Show the current image
-        if (studentImageElements[index]) {
-          studentImageElements[index].classList.add('visible');
-        }
+        studentImageElements.forEach(img => img.classList.remove('visible'));
+        if (studentImageElements[index]) studentImageElements[index].classList.add('visible');
       }
 
-      // Update learner display
       function updateLearnerDisplay() {
         const studentIndex = currentDisplayIndex % learnerData.length;
         const currentLearner = learnerData[studentIndex];
-        
-        // Update name
         learnerSpan.innerText = currentLearner.name;
-        
-        // Show only this student's image
         showCurrentLearnerImage(studentIndex);
-        
         currentDisplayIndex++;
       }
 
       function formatTwo(n) { return n < 10 ? '0' + n : n; }
       function isExpired() { return Date.now() >= targetDate.getTime(); }
 
+      let flashInterval = null;
+      function startRedFlashWarning() {
+        const container = document.getElementById('learnerContainer');
+        if (!container) return;
+        let toggle = false;
+        flashInterval = setInterval(() => {
+          if (isExpired()) { if (flashInterval) clearInterval(flashInterval); return; }
+          toggle = !toggle;
+          container.style.boxShadow = toggle ? '0 0 75px #ff2e5e, inset 0 0 20px #ff6b8f' : '0 0 30px #ff1f5a, inset 0 0 8px #ff3b6f';
+          container.style.borderColor = toggle ? '#ff809e' : '#ff2e5e';
+        }, 380);
+      }
+
       function showFinalScreen() {
+        if (flashInterval) clearInterval(flashInterval);
         mainDiv.classList.add('hidden');
         finalDiv.classList.remove('hidden');
         finalDiv.innerHTML = `
-          <div class="final-elegant">
-            <span class="text-7xl block mb-5">🌑</span>
-            <h2 class="text-5xl md:text-7xl font-bold text-white">Fil Noir</h2>
-            <p class="text-3xl text-blue-400 mt-2">ARRIVED</p>
-            <p class="text-gray-400 mt-6 text-xl border-t border-blue-900/50 pt-6">may 5, 2026 · the moment is now</p>
-            <div class="mt-8 text-blue-300/50 text-sm tracking-widest">H Y K   ·   Y O U C O D E</div>
+          <div class="final-emergency">
+            <span class="text-9xl block mb-5 animate-pulse">🔥⛔🔥</span>
+            <h2 class="text-6xl md:text-8xl font-black text-white tracking-tighter drop-shadow-[0_0_40px_red]">FIL NOIR</h2>
+            <p class="text-5xl text-red-500 font-black mt-4 animate-pulse">ARRIVED · ZERO HOUR</p>
+            <p class="text-red-300/90 mt-8 text-2xl border-t border-red-700/70 pt-8 font-mono">april 27, 2026 · the abyss is now</p>
+            <div class="mt-10 text-red-300/70 text-base tracking-widest font-bold">⚠️ H Y K   ·   Y O U C O D E   ·   CRITICAL ⚠️</div>
           </div>
         `;
+        if (soundEnabled) playWarningSound();
       }
 
       function updateNumbersAndMaybeFinal() {
-        if (isExpired()) {
-          showFinalScreen();
-          return true;
-        }
+        if (isExpired()) { showFinalScreen(); return true; }
         const diff = targetDate - Date.now();
+        if (diff <= 0) { showFinalScreen(); return true; }
         daysSpan.innerText = formatTwo(Math.floor(diff / 86400000));
         hoursSpan.innerText = formatTwo(Math.floor((diff % 86400000) / 3600000));
         minutesSpan.innerText = formatTwo(Math.floor((diff % 3600000) / 60000));
@@ -605,54 +674,37 @@
         return false;
       }
 
-      // Initialize immediately - create all images and start
-      function initialize() {
-        // Create all 27 img elements with their URLs (no src modification)
-        createAllStudentImages();
-        
-        // Initialize progress circle
-        updateProgressCircle();
-        
-        if (isExpired()) {
-          showFinalScreen();
-          return;
-        }
-
-        // Start countdown
-        updateNumbersAndMaybeFinal();
-        
-        // Display first student (image and name)
-        const firstStudent = learnerData[0];
-        learnerSpan.innerText = firstStudent.name;
-        showCurrentLearnerImage(0);
-        currentDisplayIndex = 1;
-
-        // Timer: update countdown and progress circle every second
-        const timerInterval = setInterval(() => {
-          if (isExpired()) {
-            clearInterval(timerInterval);
-            clearInterval(learnerInterval);
-            showFinalScreen();
-          } else {
-            updateNumbersAndMaybeFinal();
-            updateProgressCircle();
-          }
-        }, 1000);
-
-        // Rotate learner (name + image) every 3 seconds
-        const learnerInterval = setInterval(() => {
-          if (!isExpired()) {
-            updateLearnerDisplay();
-          } else {
-            clearInterval(learnerInterval);
-          }
-        }, 3000);
+      function animateTileBlink() {
+        document.querySelectorAll('.tile-emergency').forEach(tile => {
+          tile.style.backgroundColor = '#3c1a28';
+          tile.style.borderColor = '#ff809e';
+          setTimeout(() => { if (!isExpired()) { tile.style.backgroundColor = '#1c1018dd'; tile.style.borderColor = '#ff4d6d'; } }, 130);
+        });
       }
 
-      // Start immediately when page loads
-      initialize();
+      function init() {
+        createAllStudentImages();
+        updateProgressCircle();
+        if (isExpired()) { showFinalScreen(); return; }
+        updateNumbersAndMaybeFinal();
+        learnerSpan.innerText = learnerData[0].name;
+        showCurrentLearnerImage(0);
+        currentDisplayIndex = 1;
+        startRedFlashWarning();
+
+        const timerInterval = setInterval(() => {
+          if (isExpired()) { clearInterval(timerInterval); clearInterval(learnerInterval); if(flashInterval) clearInterval(flashInterval); showFinalScreen(); }
+          else { updateNumbersAndMaybeFinal(); updateProgressCircle(); animateTileBlink(); 
+                if(soundEnabled && (!window._ls || Date.now()-window._ls>7000)){ window._ls=Date.now(); playWarningSound(); } }
+        }, 1000);
+
+        const learnerInterval = setInterval(() => { if (!isExpired()) updateLearnerDisplay(); else clearInterval(learnerInterval); }, 2800);
+
+        let pulseBody = false;
+        setInterval(() => { if (!isExpired()) { pulseBody = !pulseBody; document.querySelector('.dark-overlay').style.opacity = pulseBody ? '0.75' : '0.65'; } }, 800);
+      }
+      init();
     })();
   </script>
 </body>
-
 </html>
