@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Fil Noir 2026 · CRITICAL WARNING · countdown zero</title>
+  <title>Fil Noir 2026 · HALLOWEEN EDITION · CRITICAL WARNING</title>
   <!-- Tailwind + Inter refined -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -16,122 +16,134 @@
     }
 
     body {
-      background: #0a0c15;
+      background: #0a0206;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow-x: hidden;
+      background-image: radial-gradient(circle at 10% 20%, #2a0a12 0%, #000000 100%);
     }
 
-    /* BBC cinematic background overlay — MUCH MORE VISIBLE */
-    .bbc-bg-overlay {
+    /* Halloween textures: cobweb corners + subtle blood splatter style */
+    body::before {
+      content: "";
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('https://ichef.bbci.co.uk/images/ic/1376x774/p0470shl.jpg.webp');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.65;
-      z-index: 1;
+      background-image: repeating-linear-gradient(45deg, rgba(180, 30, 30, 0.05) 0px, rgba(180, 30, 30, 0.05) 2px, transparent 2px, transparent 8px);
       pointer-events: none;
-      filter: grayscale(0.2) contrast(1.1) brightness(0.85);
-    }
-    
-    /* Dark gradient overlay to keep text readable but image visible */
-    .dark-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.7) 100%);
-      z-index: 2;
-      pointer-events: none;
+      z-index: 0;
     }
 
-    /* warning atmosphere — deep crimson pulse (behind image) */
-    .warning-orb {
+    body::after {
+      content: "🎃 💀 🕸️";
+      position: fixed;
+      bottom: 15px;
+      right: 20px;
+      font-size: 32px;
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 0;
+      letter-spacing: 8px;
+      color: #b91c1c;
+    }
+
+    /* Halloween orb — bloody pumpkin glow */
+    .halloween-orb {
       position: fixed;
       border-radius: 50%;
-      background: radial-gradient(circle, #ff2e5e, #7f1a1a);
-      filter: blur(120px);
+      background: radial-gradient(circle, #ff2a2a, #5e0f0f);
+      filter: blur(110px);
       z-index: 0;
-      opacity: 0.4;
-      animation: pulseWarning 3s infinite alternate;
+      opacity: 0.35;
+      animation: pulseHalloween 4s infinite alternate;
       pointer-events: none;
     }
 
-    .warning-orb.left {
-      width: 80vmax;
-      height: 80vmax;
-      left: -20%;
+    .halloween-orb.left {
+      width: 85vmax;
+      height: 85vmax;
+      left: -30%;
       top: -20%;
+      background: #b91c1c;
+      opacity: 0.3;
     }
 
-    .warning-orb.right {
+    .halloween-orb.right {
       width: 60vmin;
       height: 60vmin;
       right: 0%;
-      bottom: 0%;
-      background: #e11d48;
-      animation-duration: 2s;
-      opacity: 0.5;
+      bottom: 5%;
+      background: #ff4d4d;
+      animation-duration: 2.5s;
+      opacity: 0.4;
     }
 
-    @keyframes pulseWarning {
-      0% { transform: scale(1); opacity: 0.3; }
-      100% { transform: scale(1.25); opacity: 0.6; filter: blur(140px); }
+    @keyframes pulseHalloween {
+      0% { transform: scale(1); opacity: 0.2; filter: blur(100px);}
+      100% { transform: scale(1.2); opacity: 0.45; filter: blur(130px);}
     }
 
-    /* main card — semi-transparent to let background show through */
+    /* main card — dark bloody glass with Halloween vibe */
     .card-warning {
-      background: rgba(8, 5, 10, 0.82);
-      backdrop-filter: blur(12px) saturate(180%);
-      border: 3px solid #ff1f5a;
-      box-shadow: 0 0 60px rgba(255, 30, 86, 0.6), 0 0 0 2px #ff8da1 inset;
-      border-radius: 3.5rem;
+      background: rgba(10, 3, 7, 0.88);
+      backdrop-filter: blur(14px) saturate(200%);
+      border: 3px solid #e11d48;
+      box-shadow: 0 0 60px rgba(220, 38, 38, 0.8), 0 0 0 2px #ff8da1 inset;
+      border-radius: 3rem;
       position: relative;
       z-index: 30;
       transition: all 0.2s;
-      animation: borderFlash 0.9s infinite;
+      animation: borderFlashHalloween 0.9s infinite;
     }
 
-    @keyframes borderFlash {
-      0% { border-color: #ff1f5a; box-shadow: 0 0 35px rgba(255, 31, 90, 0.6); }
-      50% { border-color: #ff6b8f; box-shadow: 0 0 70px rgba(255, 107, 143, 0.9); }
-      100% { border-color: #ff1f5a; box-shadow: 0 0 35px rgba(255, 31, 90, 0.6); }
+    @keyframes borderFlashHalloween {
+      0% { border-color: #e11d48; box-shadow: 0 0 35px #e11d48, inset 0 0 5px #ff4d6d; }
+      50% { border-color: #ff4d6d; box-shadow: 0 0 80px #ff2e5e, inset 0 0 12px #ff809e; }
+      100% { border-color: #e11d48; box-shadow: 0 0 35px #e11d48, inset 0 0 5px #ff4d6d; }
     }
 
-    /* countdown tiles — ultra visible with strong glow */
+    /* countdown tiles — bloody & halloween */
     .tile-emergency {
-      background: #1c1018dd;
-      border-radius: 2.2rem;
+      background: #1f0a12dd;
+      border-radius: 2rem;
       padding: 2rem 0.5rem;
-      border: 2px solid #ff4d6d;
-      box-shadow: 0 10px 30px -5px #000, 0 0 25px #ff3a5e;
+      border: 2px solid #f43f5e;
+      box-shadow: 0 10px 30px -5px #000, 0 0 28px #ff1f5a;
       transition: all 0.25s ease;
       text-align: center;
       transform: scale(1);
       backdrop-filter: blur(4px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tile-emergency::before {
+      content: "🩸";
+      position: absolute;
+      bottom: 5px;
+      left: 10px;
+      font-size: 20px;
+      opacity: 0.2;
+      pointer-events: none;
     }
 
     .tile-emergency:hover {
       border-color: #ffb3c6;
-      background: #2e1722ee;
+      background: #3c1422ee;
       transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 0 45px #ff5e7e;
+      box-shadow: 0 0 55px #ff5e7e;
     }
 
     .digit-danger {
       font-size: 5rem;
       font-weight: 900;
       color: #ffffff;
-      text-shadow: 0 0 35px #ff2e5e, 0 0 10px #ff8da1;
+      text-shadow: 0 0 30px #ff2e5e, 0 0 12px #ff8da1, 2px 2px 0 #3a0c1a;
       line-height: 1;
       letter-spacing: -0.02em;
     }
@@ -142,12 +154,13 @@
       letter-spacing: 0.35em;
       text-transform: uppercase;
       margin-top: 0.9rem;
-      font-weight: 700;
+      font-weight: 800;
+      text-shadow: 0 0 6px #ff1f5a;
     }
 
-    /* learners card — maximum visibility red alert */
+    /* learners card — Halloween blood alert */
     .learners-alert {
-      background: #0a0510cc;
+      background: #0a0208dd;
       border: 3px solid #ff2e5e;
       border-radius: 5rem;
       padding: 1.5rem 2.2rem;
@@ -162,11 +175,23 @@
       transition: all 0.2s;
       animation: subtlePulseBg 0.9s infinite;
       backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    .learners-alert::after {
+      content: "🕷️";
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      font-size: 28px;
+      opacity: 0.7;
+      filter: drop-shadow(0 0 4px red);
+      transform: rotate(15deg);
     }
 
     @keyframes subtlePulseBg {
       0% { box-shadow: 0 0 25px #ff1f5a; border-color: #ff2e5e; }
-      100% { box-shadow: 0 0 65px #ff6b8f; border-color: #ff809e; }
+      100% { box-shadow: 0 0 70px #ff6b8f; border-color: #ff809e; }
     }
 
     .student-images-container {
@@ -183,13 +208,14 @@
       height: 170px;
       border-radius: 100%;
       object-fit: cover;
-      border: 4px solid #ff6b8f;
-      box-shadow: 0 0 45px rgba(255, 107, 143, 0.9);
-      background: #2a1420;
+      border: 4px solid #ff4d6d;
+      box-shadow: 0 0 45px rgba(255, 50, 90, 0.9);
+      background: #2a0f18;
       transition: transform 0.3s ease, opacity 0.4s ease;
       opacity: 0;
       visibility: hidden;
       transform: scale(0.9);
+      filter: drop-shadow(0 0 6px #b91c1c);
     }
 
     .student-img.visible {
@@ -199,26 +225,26 @@
     }
 
     .student-img:hover {
-      transform: scale(1.07);
-      border-color: #ffd966;
-      box-shadow: 0 0 60px #ffb347;
+      transform: scale(1.07) rotate(2deg);
+      border-color: #ffaa44;
+      box-shadow: 0 0 60px #ff7043;
     }
 
     .learners-text-warning {
       font-size: 2.2rem;
       font-weight: 800;
-      background: linear-gradient(145deg, #fff5f5, #ffdddd);
+      background: linear-gradient(145deg, #fff0f0, #ffc0d0);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       letter-spacing: -0.01em;
+      filter: drop-shadow(0 0 20px #ff3a5e);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      filter: drop-shadow(0 0 20px #ff3a5e);
     }
 
-    /* circular progress with enhanced visibility */
+    /* circular progress — Halloween themed */
     .progress-circle-container {
       position: fixed;
       top: 20px;
@@ -226,11 +252,12 @@
       z-index: 200;
       width: 90px;
       height: 90px;
-      background: rgba(0,0,0,0.6);
+      background: #1c0810dd;
       border-radius: 50%;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
       padding: 5px;
-      border: 1px solid #ff4d6d;
+      border: 2px solid #ff3a5e;
+      box-shadow: 0 0 20px #e11d48;
     }
 
     .progress-circle {
@@ -241,7 +268,7 @@
 
     .progress-circle-bg {
       fill: none;
-      stroke: #4a1e2c;
+      stroke: #4a1526;
       stroke-width: 7;
     }
 
@@ -292,17 +319,17 @@
       font-weight: 400;
       font-size: 1.7rem;
       letter-spacing: 0.6rem;
-      background: linear-gradient(145deg, #ffcedb, #ffffff);
+      background: linear-gradient(145deg, #ffb7c7, #ff3a5e);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       border-left: 4px solid #ff3b6f;
       padding-left: 1.2rem;
-      text-shadow: 0 0 5px #ff2e5e;
+      text-shadow: 0 0 8px #ff2e5e;
     }
 
     .final-emergency {
-      background: #0f0710dd;
+      background: #0a0208ee;
       border-radius: 4rem;
       padding: 3.5rem 2rem;
       border: 4px solid #ff2e5e;
@@ -313,8 +340,8 @@
     }
 
     @keyframes alarmBlink {
-      0% { border-color: #ff1f5a; box-shadow: 0 0 40px #ff1f5a; background: #0a0510cc; }
-      100% { border-color: #ff7b9e; box-shadow: 0 0 110px #ff4d6d; background: #1f0a15cc; }
+      0% { border-color: #ff1f5a; box-shadow: 0 0 40px #ff1f5a; background: #1c0510cc; }
+      100% { border-color: #ff7b9e; box-shadow: 0 0 110px #ff4d6d; background: #2f0a18cc; }
     }
 
     .footer-warning {
@@ -332,7 +359,6 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* hide scroll */
     *::-webkit-scrollbar { display: none; }
     * { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -342,49 +368,47 @@
     .badge-critical {
       animation: pulseBadge 1s infinite;
       font-weight: 800;
+      background: #3c0f1c;
+      border-color: #ff4d6d;
     }
     @keyframes pulseBadge {
-      0% { background-color: #7f1a2e; border-color: #ff4d6d; }
-      100% { background-color: #e11d48; border-color: #ffb3c6; }
+      0% { background-color: #4a121f; border-color: #ff4d6d; box-shadow: 0 0 8px red; }
+      100% { background-color: #b91c2e; border-color: #ffb3c6; box-shadow: 0 0 18px #ff3a5e; }
     }
-    
-    /* sound control button */
-    .sound-btn {
+
+    /* Halloween spider web decoration on corners */
+    .spider-web {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 200;
-      background: #1c1018ee;
-      border: 2px solid #ff4d6d;
-      border-radius: 50px;
-      padding: 10px 20px;
-      color: #ffb7c7;
-      font-weight: bold;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: all 0.2s;
-      font-size: 14px;
+      bottom: 0;
+      left: 0;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle at 0% 100%, rgba(255, 80, 80, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
     }
-    .sound-btn:hover {
-      background: #ff2e5e;
-      color: white;
-      transform: scale(1.05);
+
+    .spider-web::before {
+      content: "🕸️";
+      font-size: 60px;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      opacity: 0.25;
     }
+
+    /* NO SOUND ELEMENT — removed completely */
   </style>
 </head>
 <body>
 
-  <!-- Background layers: BBC image now much more visible + dark overlay for readability -->
-  <div class="bbc-bg-overlay"></div>
-  <div class="dark-overlay"></div>
-  
-  <div class="warning-orb left"></div>
-  <div class="warning-orb right"></div>
+  <!-- Halloween atmosphere orbs (no sound, no background image) -->
+  <div class="halloween-orb left"></div>
+  <div class="halloween-orb right"></div>
+  <div class="spider-web"></div>
+  <div class="spider-web" style="top:0; right:0; left:auto; bottom:auto; transform: rotate(90deg);"></div>
 
-  <!-- Manual sound control button (user-friendly) -->
-  <div class="sound-btn" id="soundToggleBtn">🔊 ENABLE WARNING SOUND</div>
-
-  <!-- progress ring indicator red alert ultra visible -->
+  <!-- progress ring indicator red alert -->
   <div class="progress-circle-container">
     <svg class="progress-circle" viewBox="0 0 100 100">
       <defs>
@@ -398,16 +422,18 @@
     </svg>
     <div class="progress-text">
       <span id="progressPercentage">0</span><span>%</span>
-      <div class="progress-label">URGENCY</div>
+      <div class="progress-label">BLOOD MOON</div>
     </div>
   </div>
 
   <div class="relative z-40 w-full max-w-6xl p-5 appear-smooth">
     <div class="card-warning p-10 md:p-14 lg:p-16">
 
-      <!-- header warning red tags more visible -->
+      <!-- header warning red tags + halloween icons -->
       <div class="flex flex-wrap items-center justify-between gap-5 mb-12">
-        <span class="badge-critical text-sm font-black text-red-100 tracking-[0.3em] bg-red-950/90 px-7 py-3 rounded-full border-2 border-red-500 uppercase shadow-lg shadow-red-900/50">⚠️ FIL NOIR · CRITICAL COUNTDOWN ⚠️</span>
+        <span class="badge-critical text-sm font-black text-red-100 tracking-[0.3em] bg-red-950/90 px-7 py-3 rounded-full border-2 border-red-500 uppercase shadow-lg shadow-red-900/50 flex items-center gap-2">
+          🎃 FIL NOIR · HALLOWEEN COUNTDOWN 🦇
+        </span>
         <div class="flex items-center gap-5">
           <span class="text-base text-red-300/80 font-semibold">crafted by</span>
           <span class="hyk-warning">HYK</span>
@@ -416,12 +442,18 @@
 
       <div id="mainUI">
         <div class="text-center">
-          <h1 class="text-6xl md:text-8xl font-black text-white tracking-tight glow-text-critical">Fil Noir <span class="text-red-500 drop-shadow-[0_0_25px_#ff4d6d]">2026</span></h1>
-          <p class="text-red-300/90 mt-4 text-xl md:text-2xl font-mono tracking-wider font-bold animate-pulse">⚠️ THE DARK DAY · APRIL 27 · NO TIME LEFT ⚠️</p>
-          <div class="inline-block mt-4 bg-black/60 text-red-300 text-sm px-5 py-2 rounded-full border-2 border-red-600/80 font-bold tracking-wide">⚠️ WARNING: ABDELAZIZ AIT HASSAN REMOVED — PURGED ⚠️</div>
+          <h1 class="text-6xl md:text-8xl font-black text-white tracking-tight glow-text-critical flex flex-wrap justify-center items-center gap-3">
+            Fil Noir <span class="text-red-500 drop-shadow-[0_0_25px_#ff4d6d]">2026</span> <span class="text-5xl">🩸</span>
+          </h1>
+          <p class="text-red-300/90 mt-4 text-xl md:text-2xl font-mono tracking-wider font-bold animate-pulse">
+            ⚰️ THE DARK DAY · APRIL 27 · NO TIME LEFT ⚰️
+          </p>
+          <div class="inline-block mt-4 bg-black/70 text-red-300 text-sm px-5 py-2 rounded-full border-2 border-red-600/80 font-bold tracking-wide shadow-red-800/30 flex items-center gap-2">
+            🧛‍♂️ WARNING: ABDELAZIZ AIT HASSAN REMOVED — PURGED 🕸️
+          </div>
         </div>
 
-        <!-- LEARNERS DISPLAY with high alert red flash effect + max visibility -->
+        <!-- LEARNERS DISPLAY with halloween blood alert effect -->
         <div class="flex justify-center my-12">
           <div class="learners-alert" id="learnerContainer">
             <div class="student-images-container" id="studentImagesContainer"></div>
@@ -429,20 +461,20 @@
           </div>
         </div>
 
-        <!-- countdown tiles emergency style with bigger digits -->
+        <!-- countdown tiles emergency style halloween -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8 mt-10">
-          <div class="tile-emergency"><span class="digit-danger" id="days">00</span><span class="digit-label">DAYS</span></div>
-          <div class="tile-emergency"><span class="digit-danger" id="hours">00</span><span class="digit-label">HOURS</span></div>
-          <div class="tile-emergency"><span class="digit-danger" id="minutes">00</span><span class="digit-label">MINUTES</span></div>
-          <div class="tile-emergency"><span class="digit-danger" id="seconds">00</span><span class="digit-label">SECONDS</span></div>
+          <div class="tile-emergency"><span class="digit-danger" id="days">00</span><span class="digit-label">DAYS</span><span class="absolute bottom-1 right-2 text-xs opacity-50">🦇</span></div>
+          <div class="tile-emergency"><span class="digit-danger" id="hours">00</span><span class="digit-label">HOURS</span><span class="absolute bottom-1 right-2 text-xs opacity-50">🌙</span></div>
+          <div class="tile-emergency"><span class="digit-danger" id="minutes">00</span><span class="digit-label">MINUTES</span><span class="absolute bottom-1 right-2 text-xs opacity-50">🕯️</span></div>
+          <div class="tile-emergency"><span class="digit-danger" id="seconds">00</span><span class="digit-label">SECONDS</span><span class="absolute bottom-1 right-2 text-xs opacity-50">💀</span></div>
         </div>
       </div>
 
       <div id="finalUI" class="hidden w-full flex justify-center py-8"></div>
 
       <div class="footer-warning mt-16 pt-8 text-center text-base flex flex-wrap items-center justify-center gap-6 font-semibold">
-        <span>⚠️</span><span>FIL NOIR · YOUCODE · DEADLINE ZERO</span><span>⚠️</span>
-        <span class="text-red-400 font-extrabold animate-pulse tracking-wider">CRITICAL ALERT: APRIL 27</span><span>⚠️</span>
+        <span>🎃</span><span>FIL NOIR · YOUCODE · DEADLINE ZERO</span><span>🩸</span>
+        <span class="text-red-400 font-extrabold animate-pulse tracking-wider">CRITICAL ALERT: APRIL 27 · HALLOWEEN IS COMING</span><span>💀</span>
       </div>
     </div>
   </div>
@@ -492,97 +524,6 @@
       const progressFill = document.getElementById('progressFill');
       const progressPercentage = document.getElementById('progressPercentage');
       const circumference = 2 * Math.PI * 45;
-      const soundBtn = document.getElementById('soundToggleBtn');
-
-      // SOUND MANAGEMENT - FIXED: using Audio element for simpler reliable playback
-      let soundEnabled = false;
-      let audioElement = null;
-      
-      function initSound() {
-        // Create audio element with sound.mp3 (ensure file exists in same directory)
-        audioElement = new Audio('./sound.mp3');
-        audioElement.loop = false;
-        audioElement.volume = 0.6;
-        audioElement.preload = 'auto';
-        
-        // Load the audio
-        audioElement.load();
-        
-        // Test if sound can play
-        audioElement.addEventListener('canplaythrough', () => {
-          console.log('Sound loaded and ready');
-        });
-        
-        audioElement.addEventListener('error', (e) => {
-          console.warn('Sound file error - make sure sound.mp3 exists in the same folder as this HTML file');
-          soundBtn.textContent = '🔇 SOUND MISSING (add sound.mp3)';
-          soundBtn.style.opacity = '0.6';
-        });
-      }
-      
-      function playWarningSound() {
-        if (!soundEnabled || !audioElement) return;
-        try {
-          // Reset and play
-          audioElement.currentTime = 0;
-          audioElement.play().catch(err => {
-            console.log('Autoplay blocked, user interaction needed');
-            // If play fails, show hint
-            soundBtn.textContent = '🔊 CLICK TO ENABLE SOUND';
-          });
-        } catch(e) { console.warn(e); }
-      }
-      
-      function enableSound() {
-        if (!audioElement) {
-          initSound();
-        }
-        soundEnabled = true;
-        // Try to play a test sound to unlock audio context
-        if (audioElement) {
-          audioElement.play().then(() => {
-            audioElement.pause();
-            audioElement.currentTime = 0;
-            soundBtn.textContent = '🔊 SOUND ACTIVE';
-            soundBtn.style.background = '#ff2e5e';
-          }).catch(err => {
-            console.log('Still blocked, but enabled flag set');
-            soundBtn.textContent = '🔊 SOUND READY (click again)';
-          });
-        }
-      }
-      
-      // Manual button to enable sound (bypass auto-play restrictions)
-      soundBtn.addEventListener('click', () => {
-        if (!audioElement) initSound();
-        if (audioElement) {
-          soundEnabled = true;
-          audioElement.play().then(() => {
-            audioElement.pause();
-            audioElement.currentTime = 0;
-            soundBtn.textContent = '🔊 SOUND ACTIVE';
-            soundBtn.style.background = '#ff2e5e';
-            // Also play a demo sound
-            playWarningSound();
-          }).catch(e => {
-            console.log('User interaction needed');
-            soundBtn.textContent = '🔊 SOUND ENABLED (click page)';
-            soundEnabled = true;
-          });
-        }
-      });
-      
-      // Also enable on any body click for convenience
-      document.body.addEventListener('click', () => {
-        if (!soundEnabled && audioElement) {
-          soundEnabled = true;
-          soundBtn.textContent = '🔊 SOUND ACTIVE';
-          soundBtn.style.background = '#ff2e5e';
-        }
-      }, { once: true });
-      
-      // Initialize sound on load
-      initSound();
 
       function calculateSeasonPercentage() {
         const now = Date.now();
@@ -639,9 +580,9 @@
         flashInterval = setInterval(() => {
           if (isExpired()) { if (flashInterval) clearInterval(flashInterval); return; }
           toggle = !toggle;
-          container.style.boxShadow = toggle ? '0 0 75px #ff2e5e, inset 0 0 20px #ff6b8f' : '0 0 30px #ff1f5a, inset 0 0 8px #ff3b6f';
+          container.style.boxShadow = toggle ? '0 0 85px #ff2e5e, inset 0 0 22px #ff6b8f' : '0 0 35px #ff1f5a, inset 0 0 8px #ff3b6f';
           container.style.borderColor = toggle ? '#ff809e' : '#ff2e5e';
-        }, 380);
+        }, 400);
       }
 
       function showFinalScreen() {
@@ -650,14 +591,14 @@
         finalDiv.classList.remove('hidden');
         finalDiv.innerHTML = `
           <div class="final-emergency">
-            <span class="text-9xl block mb-5 animate-pulse">🔥⛔🔥</span>
+            <span class="text-9xl block mb-5 animate-pulse">🎃🩸💀</span>
             <h2 class="text-6xl md:text-8xl font-black text-white tracking-tighter drop-shadow-[0_0_40px_red]">FIL NOIR</h2>
             <p class="text-5xl text-red-500 font-black mt-4 animate-pulse">ARRIVED · ZERO HOUR</p>
-            <p class="text-red-300/90 mt-8 text-2xl border-t border-red-700/70 pt-8 font-mono">april 27, 2026 · the abyss is now</p>
+            <p class="text-red-300/90 mt-8 text-2xl border-t border-red-700/70 pt-8 font-mono">april 27, 2026 · the abyss is now · halloween curse</p>
             <div class="mt-10 text-red-300/70 text-base tracking-widest font-bold">⚠️ H Y K   ·   Y O U C O D E   ·   CRITICAL ⚠️</div>
+            <div class="text-3xl mt-6">🕸️ 🦇 🧛</div>
           </div>
         `;
-        if (soundEnabled) playWarningSound();
       }
 
       function updateNumbersAndMaybeFinal() {
@@ -673,9 +614,9 @@
 
       function animateTileBlink() {
         document.querySelectorAll('.tile-emergency').forEach(tile => {
-          tile.style.backgroundColor = '#3c1a28';
-          tile.style.borderColor = '#ff809e';
-          setTimeout(() => { if (!isExpired()) { tile.style.backgroundColor = '#1c1018dd'; tile.style.borderColor = '#ff4d6d'; } }, 130);
+          tile.style.backgroundColor = '#2e0f1a';
+          tile.style.borderColor = '#ff6b8f';
+          setTimeout(() => { if (!isExpired()) { tile.style.backgroundColor = '#1f0a12dd'; tile.style.borderColor = '#f43f5e'; } }, 130);
         });
       }
 
@@ -691,14 +632,19 @@
 
         const timerInterval = setInterval(() => {
           if (isExpired()) { clearInterval(timerInterval); clearInterval(learnerInterval); if(flashInterval) clearInterval(flashInterval); showFinalScreen(); }
-          else { updateNumbersAndMaybeFinal(); updateProgressCircle(); animateTileBlink(); 
-                if(soundEnabled && (!window._ls || Date.now()-window._ls>7000)){ window._ls=Date.now(); playWarningSound(); } }
+          else { updateNumbersAndMaybeFinal(); updateProgressCircle(); animateTileBlink(); }
         }, 1000);
 
         const learnerInterval = setInterval(() => { if (!isExpired()) updateLearnerDisplay(); else clearInterval(learnerInterval); }, 2800);
 
         let pulseBody = false;
-        setInterval(() => { if (!isExpired()) { pulseBody = !pulseBody; document.querySelector('.dark-overlay').style.opacity = pulseBody ? '0.75' : '0.65'; } }, 800);
+        setInterval(() => { 
+          if (!isExpired()) { 
+            pulseBody = !pulseBody; 
+            const bodyBg = document.body;
+            bodyBg.style.background = pulseBody ? 'radial-gradient(circle at 20% 30%, #2f0a16 0%, #000000 100%)' : 'radial-gradient(circle at 10% 20%, #2a0a12 0%, #000000 100%)';
+          }
+        }, 900);
       }
       init();
     })();
