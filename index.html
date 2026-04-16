@@ -157,7 +157,7 @@
       font-weight: 800;
     }
 
-    /* Single Learner Card - Rotating Card with countdown */
+    /* Rotating Learner Card - preloaded images, only active card visible */
     .rotating-learner-card {
       background: #0e0308dd;
       backdrop-filter: blur(16px);
@@ -165,11 +165,12 @@
       border: 3px solid #ff3a5e;
       box-shadow: 0 0 55px rgba(255, 30, 70, 0.7), inset 0 0 15px #ff6b8f;
       transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      overflow: hidden;
-      max-width: 520px;
+      max-width: 560px;
       width: 100%;
       margin: 0 auto;
       animation: cardPulseGlow 1.2s infinite alternate;
+      overflow: hidden;
+      position: relative;
     }
 
     @keyframes cardPulseGlow {
@@ -182,6 +183,30 @@
         box-shadow: 0 0 85px #ff6b8f;
         border-color: #ff90aa;
       }
+    }
+
+    /* All learner slides container */
+    .learner-slides-container {
+      position: relative;
+      min-height: 420px;
+    }
+
+    .learner-slide {
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+    }
+
+    .learner-slide.active {
+      opacity: 1;
+      visibility: visible;
+      position: relative;
+      pointer-events: auto;
     }
 
     .learner-header {
@@ -201,7 +226,6 @@
       border: 4px solid #ff4d6d;
       box-shadow: 0 0 35px #ff2e5e;
       background: #2a0f18;
-      transition: transform 0.3s;
     }
 
     .learner-name {
@@ -438,38 +462,6 @@
         transform: translateY(0);
       }
     }
-
-    .fade-out-card {
-      animation: fadeOutCard 0.4s forwards;
-    }
-
-    @keyframes fadeOutCard {
-      0% {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      100% {
-        opacity: 0;
-        transform: scale(0.92);
-      }
-    }
-
-    .fade-in-card {
-      animation: fadeInCard 0.5s forwards;
-    }
-
-    @keyframes fadeInCard {
-      0% {
-        opacity: 0;
-        transform: scale(0.94);
-      }
-
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
   </style>
 </head>
 
@@ -527,10 +519,12 @@
           </div>
         </div>
 
-        <!-- ROTATING LEARNER CARD (One by one) -->
+        <!-- ROTATING LEARNER CARD (All images preloaded, only active visible) -->
         <div class="flex justify-center my-12">
-          <div id="rotatingLearnerCard" class="rotating-learner-card">
-            <!-- dynamic content injected here -->
+          <div class="rotating-learner-card">
+            <div id="learnerSlidesContainer" class="learner-slides-container">
+              <!-- All learner slides will be injected here with preloaded images -->
+            </div>
           </div>
         </div>
 
@@ -562,7 +556,7 @@
 
   <script>
     (function () {
-      // Learner Data: Abdelaziz removed, each with personal deadline (MM/DD) - interpreted in 2026
+      // Learner Data - Abdelaziz removed
       const learnerData = [
         { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile//1545-1760996241.png", date: "04/29" },
         { name: "Abderrahim Elgmouri", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1875-1760996503.png", date: "04/28" },
@@ -605,13 +599,14 @@
       const progressFill = document.getElementById('progressFill');
       const progressPercentage = document.getElementById('progressPercentage');
       const circumference = 2 * Math.PI * 45;
-      const rotatingCardContainer = document.getElementById('rotatingLearnerCard');
+      const slidesContainer = document.getElementById('learnerSlidesContainer');
 
       let currentIndex = 0;
       let rotationInterval = null;
       let personalUpdateInterval = null;
+      let slideElements = []; // store each slide DOM element
 
-      // Helper: parse personal deadline (MM/DD) into Date object (year 2026, at end of day)
+      // Helper: parse personal deadline (MM/DD) into Date object (year 2026, end of day)
       function parsePersonalDeadline(dateStr) {
         if (!dateStr) return null;
         const parts = dateStr.split('/');
@@ -621,81 +616,72 @@
         return new Date(2026, month, day, 23, 59, 59);
       }
 
-      // Format remaining time for a given deadline date
-      function getRemainingForDeadline(deadlineDate) {
-        if (!deadlineDate) return null;
-        const now = Date.now();
-        const diff = deadlineDate.getTime() - now;
-        if (diff <= 0) return "EXPIRED";
-        const days = Math.floor(diff / 86400000);
-        const hours = Math.floor((diff % 86400000) / 3600000);
-        const minutes = Math.floor((diff % 3600000) / 60000);
-        const seconds = Math.floor((diff % 60000) / 1000);
-        return `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-      }
+      // Preload all images and build slides (all images load once)
+      function buildAllSlides() {
+        slidesContainer.innerHTML = '';
+        slideElements = [];
 
-      // Render the current learner card (with individual countdown)
-      function renderCurrentLearnerCard() {
-        if (!rotatingCardContainer) return;
-        const learner = learnerData[currentIndex];
-        if (!learner) return;
+        learnerData.forEach((learner, idx) => {
+          const slideDiv = document.createElement('div');
+          slideDiv.className = 'learner-slide';
+          if (idx === 0) slideDiv.classList.add('active');
 
-        const deadlineDate = parsePersonalDeadline(learner.date);
-        let remainingStr = "—";
-        let statusMsg = "";
-        let isExpired = false;
+          const deadlineDate = parsePersonalDeadline(learner.date);
+          let initialRemaining = "—";
+          let initialStatus = "";
+          let isExpiredInitial = false;
 
-        if (!deadlineDate) {
-          remainingStr = "⚰️ NO DEADLINE";
-          statusMsg = "🕸️ PENDING / NO DATE";
-        } else {
-          const now = Date.now();
-          const diff = deadlineDate.getTime() - now;
-          if (diff <= 0) {
-            remainingStr = "🩸 EXPIRED 🩸";
-            statusMsg = "⚠️ DEADLINE MISSED · THE RECKONING ⚠️";
-            isExpired = true;
+          if (!deadlineDate) {
+            initialRemaining = "⚰️ NO DEADLINE";
+            initialStatus = "🕸️ PENDING / NO DATE";
           } else {
-            const days = Math.floor(diff / 86400000);
-            const hours = Math.floor((diff % 86400000) / 3600000);
-            const minutes = Math.floor((diff % 3600000) / 60000);
-            const seconds = Math.floor((diff % 60000) / 1000);
-            remainingStr = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-            statusMsg = `⏳ REMAINING UNTIL HALLOWEEN DEADLINE · ${learner.date}`;
+            const now = Date.now();
+            const diff = deadlineDate.getTime() - now;
+            if (diff <= 0) {
+              initialRemaining = "🩸 EXPIRED 🩸";
+              initialStatus = "⚠️ DEADLINE MISSED · THE RECKONING ⚠️";
+              isExpiredInitial = true;
+            } else {
+              const days = Math.floor(diff / 86400000);
+              const hours = Math.floor((diff % 86400000) / 3600000);
+              const minutes = Math.floor((diff % 3600000) / 60000);
+              const seconds = Math.floor((diff % 60000) / 1000);
+              initialRemaining = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+              initialStatus = `⏳ REMAINING UNTIL HALLOWEEN DEADLINE · ${learner.date}`;
+            }
           }
-        }
 
-        const statusClass = isExpired ? 'expired-status-red' : '';
-        const cardHTML = `
-          <div class="learner-header">
-            <img class="learner-avatar" src="${learner.imageUrl}" alt="${learner.name}" onerror="this.src='https://via.placeholder.com/100?text=🩸'">
-            <div>
-              <div class="learner-name">${learner.name}</div>
-              <div class="deadline-badge">📅 PERSONAL DEADLINE: ${learner.date ? learner.date : 'NOT ASSIGNED'}</div>
+          const statusClass = isExpiredInitial ? 'expired-status-red' : '';
+
+          slideDiv.innerHTML = `
+            <div class="learner-header">
+              <img class="learner-avatar" src="${learner.imageUrl}" alt="${learner.name}" onerror="this.src='https://via.placeholder.com/100?text=🩸'">
+              <div>
+                <div class="learner-name">${learner.name}</div>
+                <div class="deadline-badge">📅 PERSONAL DEADLINE: ${learner.date ? learner.date : 'NOT ASSIGNED'}</div>
+              </div>
             </div>
-          </div>
-          <div class="personal-countdown-section">
-            <div class="personal-timer-large" id="currentLearnerTimer">${remainingStr}</div>
-            <div class="personal-status-message ${statusClass}" id="currentLearnerStatus">${statusMsg}</div>
-          </div>
-        `;
+            <div class="personal-countdown-section">
+              <div class="personal-timer-large" id="timer_${idx}">${initialRemaining}</div>
+              <div class="personal-status-message ${statusClass}" id="status_${idx}">${initialStatus}</div>
+            </div>
+          `;
 
-        rotatingCardContainer.innerHTML = cardHTML;
-        // add fade-in effect
-        rotatingCardContainer.classList.remove('fade-out-card');
-        rotatingCardContainer.classList.add('fade-in-card');
-        setTimeout(() => {
-          if (rotatingCardContainer) rotatingCardContainer.classList.remove('fade-in-card');
-        }, 500);
+          slidesContainer.appendChild(slideDiv);
+          slideElements.push(slideDiv);
+        });
       }
 
-      // Update only the timer and status for the currently displayed learner (without re-rendering whole card)
-      function updateCurrentLearnerCountdown() {
+      // Update only the active slide's timer and status
+      function updateActiveLearnerCountdown() {
+        const activeSlide = slideElements[currentIndex];
+        if (!activeSlide) return;
         const learner = learnerData[currentIndex];
         if (!learner) return;
+
         const deadlineDate = parsePersonalDeadline(learner.date);
-        const timerSpan = document.getElementById('currentLearnerTimer');
-        const statusSpan = document.getElementById('currentLearnerStatus');
+        const timerSpan = document.getElementById(`timer_${currentIndex}`);
+        const statusSpan = document.getElementById(`status_${currentIndex}`);
         if (!timerSpan || !statusSpan) return;
 
         if (!deadlineDate) {
@@ -723,19 +709,24 @@
       }
 
       // Rotate to next learner every 3 seconds
-      function nextLearner() {
+      function switchToNextLearner() {
         if (isGlobalExpired()) return;
-        // fade out effect
-        if (rotatingCardContainer) {
-          rotatingCardContainer.classList.add('fade-out-card');
-          setTimeout(() => {
-            currentIndex = (currentIndex + 1) % learnerData.length;
-            renderCurrentLearnerCard();
-          }, 280);
-        } else {
-          currentIndex = (currentIndex + 1) % learnerData.length;
-          renderCurrentLearnerCard();
+
+        // Remove active class from current slide
+        if (slideElements[currentIndex]) {
+          slideElements[currentIndex].classList.remove('active');
         }
+
+        // Move to next index
+        currentIndex = (currentIndex + 1) % slideElements.length;
+
+        // Add active class to new slide
+        if (slideElements[currentIndex]) {
+          slideElements[currentIndex].classList.add('active');
+        }
+
+        // Immediately update the new active slide's timer
+        updateActiveLearnerCountdown();
       }
 
       // Global countdown logic
@@ -763,7 +754,7 @@
         if (finalDiv) {
           finalDiv.classList.remove('hidden');
           finalDiv.innerHTML = `
-            <div class="final-emergency">
+            <div class="final-emergency" style="background:#0a0208ee; border-radius:4rem; padding:3rem 2rem; border:4px solid #ff2e5e; box-shadow:0 0 120px #ff1f5a; text-align:center; backdrop-filter:blur(8px);">
               <span class="text-9xl block mb-5 animate-pulse">🎃🩸💀</span>
               <h2 class="text-6xl md:text-8xl font-black text-white tracking-tighter drop-shadow-[0_0_40px_red]">FIL NOIR</h2>
               <p class="text-5xl text-red-500 font-black mt-4 animate-pulse">ARRIVED · ZERO HOUR</p>
@@ -803,21 +794,20 @@
 
       function startRotationAndTimers() {
         if (isGlobalExpired()) return;
-        // Render first card
-        renderCurrentLearnerCard();
-        // Rotate every 3 seconds
+
+        // Rotation every 3 seconds
         rotationInterval = setInterval(() => {
           if (!isGlobalExpired()) {
-            nextLearner();
+            switchToNextLearner();
           } else {
             if (rotationInterval) clearInterval(rotationInterval);
           }
         }, 3000);
 
-        // Update current displayed learner's personal timer every second
+        // Update active learner timer every second (personal countdown)
         personalUpdateInterval = setInterval(() => {
           if (!isGlobalExpired()) {
-            updateCurrentLearnerCountdown();
+            updateActiveLearnerCountdown();
           } else {
             if (personalUpdateInterval) clearInterval(personalUpdateInterval);
           }
@@ -825,7 +815,11 @@
       }
 
       function init() {
+        // Build all slides with preloaded images (images load once, all visible in DOM but only active shown via CSS)
+        buildAllSlides();
+
         if (isGlobalExpired()) { showFinalScreen(); return; }
+
         updateProgressCircle();
         updateGlobalCountdown();
         startRotationAndTimers();
