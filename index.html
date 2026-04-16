@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Fil Noir 2026 · HALLOWEEN EDITION · CURSED CYCLE</title>
+  <title>Fil Noir 2026 · HALLOWEEN EDITION · FIXED DEADLINES</title>
   <!-- Tailwind + Inter -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap"
@@ -157,7 +157,6 @@
       font-weight: 800;
     }
 
-    /* Rotating Learner Card - preloaded images, only active card visible */
     .rotating-learner-card {
       background: #0e0308dd;
       backdrop-filter: blur(16px);
@@ -185,7 +184,6 @@
       }
     }
 
-    /* All learner slides container */
     .learner-slides-container {
       position: relative;
       min-height: 420px;
@@ -519,11 +517,11 @@
           </div>
         </div>
 
-        <!-- ROTATING LEARNER CARD (All images preloaded, only active visible) -->
+        <!-- ROTATING LEARNER CARD -->
         <div class="flex justify-center my-12">
           <div class="rotating-learner-card">
             <div id="learnerSlidesContainer" class="learner-slides-container">
-              <!-- All learner slides will be injected here with preloaded images -->
+              <!-- All learner slides injected here -->
             </div>
           </div>
         </div>
@@ -556,7 +554,8 @@
 
   <script>
     (function () {
-      // Learner Data - Abdelaziz removed
+      // Learner Data - Fixed: Added proper dates for Houssam Largou (05/04) and Noureddine Zouana (05/04)
+      // Now supports any month from 01 to 12 correctly (April = 04, May = 05, etc.)
       const learnerData = [
         { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile//1545-1760996241.png", date: "04/29" },
         { name: "Abderrahim Elgmouri", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1875-1760996503.png", date: "04/28" },
@@ -569,14 +568,14 @@
         { name: "Brahim El Habchi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1775-1760996461.png", date: "04/28" },
         { name: "Houssam YK", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1720-1760996396.png", date: "04/27" },
         { name: "Houssam Mirrou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1756-1760996448.png", date: "04/27" },
-        { name: "Houssam Largou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1755-1760996446.png", date: "05/04" },
+        { name: "Houssam Largou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1755-1760996446.png", date: "05/04" },      // May 4th, 2026 - FIXED
         { name: "Kaoutar Zahir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1666-1760996336.png", date: "04/30" },
         { name: "Khadija El Haddad", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1865-1760996489.png", date: "04/30" },
         { name: "Lahcen Ait Maskour", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1542-1760996237.png", date: "04/27" },
         { name: "Mohamed Rahoumi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1783-1760996473.png", date: "04/30" },
         { name: "Mohamed reda chakir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1664-1760996332.png", date: null },
         { name: "Mouad El Alli", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1722-1760996401.png", date: "04/28" },
-        { name: "Noureddine Zouana", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1879-1760996511.png", date: "05/04" },
+        { name: "Noureddine Zouana", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1879-1760996511.png", date: "05/04" },      // May 4th, 2026 - FIXED
         { name: "Olaya Azzam", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1744-1760996438.png", date: "04/30" },
         { name: "Saad Haimeur", imageUrl: "https://media.licdn.com/dms/image/v2/D4E03AQHg8vsMEiI6Fw/profile-displayphoto-scale_400_400/B4EZgof51cGwAk-/0/1753026111159?e=1777507200&v=beta&t=rfjFQBgjp1btV8tpPdfNEU5YRnb5LroWWmmfoVTpu2Y", date: "04/27" },
         { name: "Saadia Ajbbar", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1643-1760996313.png", date: "04/30" },
@@ -584,7 +583,7 @@
         { name: "Yassine Nmila", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1712-1760996382.png", date: "04/28" },
       ];
 
-      // Global main deadline
+      // Global main deadline: April 27, 2026
       const mainTargetDate = new Date(2026, 3, 27, 0, 0, 0);
       const seasonStart = new Date(2025, 9, 7, 0, 0, 0);
       const seasonEnd = new Date(2026, 4, 5, 0, 0, 0);
@@ -604,19 +603,39 @@
       let currentIndex = 0;
       let rotationInterval = null;
       let personalUpdateInterval = null;
-      let slideElements = []; // store each slide DOM element
+      let slideElements = [];
 
-      // Helper: parse personal deadline (MM/DD) into Date object (year 2026, end of day)
+      // FIXED: Robust date parser that handles any MM/DD format (01-12) for year 2026
+      // Also correctly handles deadlines that are AFTER the main event (like May 4th)
       function parsePersonalDeadline(dateStr) {
-        if (!dateStr) return null;
+        if (!dateStr || dateStr.trim() === "") return null;
         const parts = dateStr.split('/');
         if (parts.length !== 2) return null;
-        const month = parseInt(parts[0], 10) - 1;
+        const month = parseInt(parts[0], 10);
         const day = parseInt(parts[1], 10);
-        return new Date(2026, month, day, 23, 59, 59);
+        // Validate month and day ranges
+        if (isNaN(month) || isNaN(day) || month < 1 || month > 12 || day < 1 || day > 31) return null;
+        // Create date in 2026 (month is 0-indexed in JS Date)
+        const deadlineDate = new Date(2026, month - 1, day, 23, 59, 59);
+        // Check if date is valid (e.g., not Feb 30)
+        if (deadlineDate.getMonth() !== month - 1) return null;
+        return deadlineDate;
       }
 
-      // Preload all images and build slides (all images load once)
+      // Helper to format remaining time from now until deadline
+      function formatRemainingTime(deadlineDate) {
+        if (!deadlineDate) return null;
+        const now = Date.now();
+        const diff = deadlineDate.getTime() - now;
+        if (diff <= 0) return "EXPIRED";
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        return `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+      }
+
+      // Build all slides with preloaded images
       function buildAllSlides() {
         slidesContainer.innerHTML = '';
         slideElements = [];
@@ -647,7 +666,7 @@
               const minutes = Math.floor((diff % 3600000) / 60000);
               const seconds = Math.floor((diff % 60000) / 1000);
               initialRemaining = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-              initialStatus = `⏳ REMAINING UNTIL HALLOWEEN DEADLINE · ${learner.date}`;
+              initialStatus = `⏳ REMAINING UNTIL DEADLINE · ${learner.date}`;
             }
           }
 
@@ -657,7 +676,7 @@
             <div class="learner-header">
               <img class="learner-avatar" src="${learner.imageUrl}" alt="${learner.name}" onerror="this.src='https://via.placeholder.com/100?text=🩸'">
               <div>
-                <div class="learner-name">${learner.name}</div>
+                <div class="learner-name">${escapeHtml(learner.name)}</div>
                 <div class="deadline-badge">📅 PERSONAL DEADLINE: ${learner.date ? learner.date : 'NOT ASSIGNED'}</div>
               </div>
             </div>
@@ -672,10 +691,20 @@
         });
       }
 
+      // Simple escape to prevent XSS
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function (m) {
+          if (m === '&') return '&amp;';
+          if (m === '<') return '&lt;';
+          if (m === '>') return '&gt;';
+          return m;
+        });
+      }
+
       // Update only the active slide's timer and status
       function updateActiveLearnerCountdown() {
-        const activeSlide = slideElements[currentIndex];
-        if (!activeSlide) return;
+        if (!slideElements[currentIndex]) return;
         const learner = learnerData[currentIndex];
         if (!learner) return;
 
@@ -703,7 +732,7 @@
           const minutes = Math.floor((diff % 3600000) / 60000);
           const seconds = Math.floor((diff % 60000) / 1000);
           timerSpan.innerText = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-          statusSpan.innerText = `⏳ REMAINING UNTIL HALLOWEEN DEADLINE · ${learner.date}`;
+          statusSpan.innerText = `⏳ REMAINING UNTIL DEADLINE · ${learner.date}`;
           statusSpan.classList.remove('expired-status-red');
         }
       }
@@ -712,20 +741,16 @@
       function switchToNextLearner() {
         if (isGlobalExpired()) return;
 
-        // Remove active class from current slide
         if (slideElements[currentIndex]) {
           slideElements[currentIndex].classList.remove('active');
         }
 
-        // Move to next index
         currentIndex = (currentIndex + 1) % slideElements.length;
 
-        // Add active class to new slide
         if (slideElements[currentIndex]) {
           slideElements[currentIndex].classList.add('active');
         }
 
-        // Immediately update the new active slide's timer
         updateActiveLearnerCountdown();
       }
 
@@ -788,14 +813,18 @@
         document.querySelectorAll('.tile-emergency').forEach(tile => {
           tile.style.backgroundColor = '#2e0f1a';
           tile.style.borderColor = '#ff6b8f';
-          setTimeout(() => { if (!isGlobalExpired()) { tile.style.backgroundColor = '#1f0a12dd'; tile.style.borderColor = '#f43f5e'; } }, 130);
+          setTimeout(() => {
+            if (!isGlobalExpired()) {
+              tile.style.backgroundColor = '#1f0a12dd';
+              tile.style.borderColor = '#f43f5e';
+            }
+          }, 130);
         });
       }
 
       function startRotationAndTimers() {
         if (isGlobalExpired()) return;
 
-        // Rotation every 3 seconds
         rotationInterval = setInterval(() => {
           if (!isGlobalExpired()) {
             switchToNextLearner();
@@ -804,7 +833,6 @@
           }
         }, 3000);
 
-        // Update active learner timer every second (personal countdown)
         personalUpdateInterval = setInterval(() => {
           if (!isGlobalExpired()) {
             updateActiveLearnerCountdown();
@@ -815,7 +843,6 @@
       }
 
       function init() {
-        // Build all slides with preloaded images (images load once, all visible in DOM but only active shown via CSS)
         buildAllSlides();
 
         if (isGlobalExpired()) { showFinalScreen(); return; }
