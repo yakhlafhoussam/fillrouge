@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Fil Noir 2026 · HALLOWEEN EDITION · CRITICAL WARNING</title>
-  <!-- Tailwind + Inter refined -->
+  <title>Fil Noir 2026 · HALLOWEEN EDITION · CURSED CYCLE</title>
+  <!-- Tailwind + Inter -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <style>
     * {
       font-family: 'Inter', sans-serif;
@@ -24,9 +26,9 @@
       position: relative;
       overflow-x: hidden;
       background-image: radial-gradient(circle at 10% 20%, #2a0a12 0%, #000000 100%);
+      transition: background 0.8s ease;
     }
 
-    /* Halloween textures: cobweb corners + subtle blood splatter style */
     body::before {
       content: "";
       position: fixed;
@@ -52,7 +54,6 @@
       color: #b91c1c;
     }
 
-    /* Halloween orb — bloody pumpkin glow */
     .halloween-orb {
       position: fixed;
       border-radius: 50%;
@@ -84,11 +85,19 @@
     }
 
     @keyframes pulseHalloween {
-      0% { transform: scale(1); opacity: 0.2; filter: blur(100px);}
-      100% { transform: scale(1.2); opacity: 0.45; filter: blur(130px);}
+      0% {
+        transform: scale(1);
+        opacity: 0.2;
+        filter: blur(100px);
+      }
+
+      100% {
+        transform: scale(1.2);
+        opacity: 0.45;
+        filter: blur(130px);
+      }
     }
 
-    /* main card — dark bloody glass with Halloween vibe */
     .card-warning {
       background: rgba(10, 3, 7, 0.88);
       backdrop-filter: blur(14px) saturate(200%);
@@ -102,12 +111,22 @@
     }
 
     @keyframes borderFlashHalloween {
-      0% { border-color: #e11d48; box-shadow: 0 0 35px #e11d48, inset 0 0 5px #ff4d6d; }
-      50% { border-color: #ff4d6d; box-shadow: 0 0 80px #ff2e5e, inset 0 0 12px #ff809e; }
-      100% { border-color: #e11d48; box-shadow: 0 0 35px #e11d48, inset 0 0 5px #ff4d6d; }
+      0% {
+        border-color: #e11d48;
+        box-shadow: 0 0 35px #e11d48, inset 0 0 5px #ff4d6d;
+      }
+
+      50% {
+        border-color: #ff4d6d;
+        box-shadow: 0 0 80px #ff2e5e, inset 0 0 12px #ff809e;
+      }
+
+      100% {
+        border-color: #e11d48;
+        box-shadow: 0 0 35px #e11d48, inset 0 0 5px #ff4d6d;
+      }
     }
 
-    /* countdown tiles — bloody & halloween */
     .tile-emergency {
       background: #1f0a12dd;
       border-radius: 2rem;
@@ -116,27 +135,9 @@
       box-shadow: 0 10px 30px -5px #000, 0 0 28px #ff1f5a;
       transition: all 0.25s ease;
       text-align: center;
-      transform: scale(1);
       backdrop-filter: blur(4px);
       position: relative;
       overflow: hidden;
-    }
-
-    .tile-emergency::before {
-      content: "🩸";
-      position: absolute;
-      bottom: 5px;
-      left: 10px;
-      font-size: 20px;
-      opacity: 0.2;
-      pointer-events: none;
-    }
-
-    .tile-emergency:hover {
-      border-color: #ffb3c6;
-      background: #3c1422ee;
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 0 55px #ff5e7e;
     }
 
     .digit-danger {
@@ -145,7 +146,6 @@
       color: #ffffff;
       text-shadow: 0 0 30px #ff2e5e, 0 0 12px #ff8da1, 2px 2px 0 #3a0c1a;
       line-height: 1;
-      letter-spacing: -0.02em;
     }
 
     .digit-label {
@@ -155,96 +155,127 @@
       text-transform: uppercase;
       margin-top: 0.9rem;
       font-weight: 800;
-      text-shadow: 0 0 6px #ff1f5a;
     }
 
-    /* learners card — Halloween blood alert */
-    .learners-alert {
-      background: #0a0208dd;
-      border: 3px solid #ff2e5e;
-      border-radius: 5rem;
-      padding: 1.5rem 2.2rem;
-      box-shadow: 0 0 55px #ff2e5e, inset 0 0 12px #ff6b8f;
-      display: inline-flex;
-      flex-direction: column;
+    /* Single Learner Card - Rotating Card with countdown */
+    .rotating-learner-card {
+      background: #0e0308dd;
+      backdrop-filter: blur(16px);
+      border-radius: 2.5rem;
+      border: 3px solid #ff3a5e;
+      box-shadow: 0 0 55px rgba(255, 30, 70, 0.7), inset 0 0 15px #ff6b8f;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      overflow: hidden;
+      max-width: 520px;
+      width: 100%;
+      margin: 0 auto;
+      animation: cardPulseGlow 1.2s infinite alternate;
+    }
+
+    @keyframes cardPulseGlow {
+      0% {
+        box-shadow: 0 0 30px #ff1f5a;
+        border-color: #ff4d6d;
+      }
+
+      100% {
+        box-shadow: 0 0 85px #ff6b8f;
+        border-color: #ff90aa;
+      }
+    }
+
+    .learner-header {
+      display: flex;
       align-items: center;
-      justify-content: center;
       gap: 1.5rem;
-      max-width: 95%;
-      min-width: 340px;
-      transition: all 0.2s;
-      animation: subtlePulseBg 0.9s infinite;
-      backdrop-filter: blur(8px);
-      position: relative;
+      padding: 1.5rem 2rem;
+      background: linear-gradient(135deg, #1f0a18, #0a0106);
+      border-bottom: 2px solid #ff5e7e;
     }
 
-    .learners-alert::after {
-      content: "🕷️";
-      position: absolute;
-      top: -12px;
-      right: -12px;
-      font-size: 28px;
-      opacity: 0.7;
-      filter: drop-shadow(0 0 4px red);
-      transform: rotate(15deg);
-    }
-
-    @keyframes subtlePulseBg {
-      0% { box-shadow: 0 0 25px #ff1f5a; border-color: #ff2e5e; }
-      100% { box-shadow: 0 0 70px #ff6b8f; border-color: #ff809e; }
-    }
-
-    .student-images-container {
-      position: relative;
-      width: 170px;
-      height: 170px;
-    }
-
-    .student-img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 170px;
-      height: 170px;
+    .learner-avatar {
+      width: 100px;
+      height: 100px;
       border-radius: 100%;
       object-fit: cover;
       border: 4px solid #ff4d6d;
-      box-shadow: 0 0 45px rgba(255, 50, 90, 0.9);
+      box-shadow: 0 0 35px #ff2e5e;
       background: #2a0f18;
-      transition: transform 0.3s ease, opacity 0.4s ease;
-      opacity: 0;
-      visibility: hidden;
-      transform: scale(0.9);
-      filter: drop-shadow(0 0 6px #b91c1c);
+      transition: transform 0.3s;
     }
 
-    .student-img.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: scale(1);
-    }
-
-    .student-img:hover {
-      transform: scale(1.07) rotate(2deg);
-      border-color: #ffaa44;
-      box-shadow: 0 0 60px #ff7043;
-    }
-
-    .learners-text-warning {
-      font-size: 2.2rem;
+    .learner-name {
+      font-size: 1.8rem;
       font-weight: 800;
-      background: linear-gradient(145deg, #fff0f0, #ffc0d0);
+      color: white;
+      text-shadow: 0 0 12px #ff2e5e;
+      letter-spacing: -0.3px;
+    }
+
+    .deadline-badge {
+      font-size: 0.85rem;
+      background: #3c0b1c;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #ffb3c6;
+      font-weight: bold;
+      border: 1px solid #ff5e7e;
+    }
+
+    .personal-countdown-section {
+      padding: 2rem;
+      text-align: center;
+      background: #0d0208aa;
+    }
+
+    .personal-timer-large {
+      font-size: 2.8rem;
+      font-weight: 900;
+      background: linear-gradient(145deg, #fff5f5, #ffbfcf);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: -0.01em;
-      filter: drop-shadow(0 0 20px #ff3a5e);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      text-shadow: 0 0 20px #ff3a5e;
+      font-family: monospace;
+      letter-spacing: 2px;
     }
 
-    /* circular progress — Halloween themed */
+    .personal-status-message {
+      font-size: 0.9rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border-radius: 60px;
+      background: #1e0712;
+      color: #ff8da1;
+      display: inline-block;
+      width: auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .expired-status-red {
+      background: #5e1329;
+      color: #ffb3c6;
+      text-shadow: 0 0 5px red;
+      animation: pulseRed 0.8s infinite;
+    }
+
+    @keyframes pulseRed {
+      0% {
+        opacity: 0.8;
+        background-color: #5e1329;
+      }
+
+      100% {
+        opacity: 1;
+        background-color: #b91c2e;
+      }
+    }
+
     .progress-circle-container {
       position: fixed;
       top: 20px;
@@ -299,20 +330,38 @@
     }
 
     @media (max-width: 640px) {
-      .learners-alert {
-        padding: 1rem 1.5rem;
-        gap: 1rem;
-        border-radius: 3rem;
-        min-width: 280px;
+      .learner-avatar {
+        width: 70px;
+        height: 70px;
       }
-      .student-images-container { width: 110px; height: 110px; }
-      .student-img { width: 110px; height: 110px; }
-      .learners-text-warning { font-size: 1.3rem; white-space: normal; text-align: center; }
-      .digit-danger { font-size: 3.2rem; }
-      .card-warning { border-radius: 2rem; padding: 1.5rem; }
-      .progress-circle-container { width: 70px; height: 70px; top: 10px; right: 10px; }
-      .progress-text { font-size: 1.1rem; }
-      .tile-emergency { padding: 1.2rem 0.2rem; }
+
+      .learner-name {
+        font-size: 1.3rem;
+      }
+
+      .personal-timer-large {
+        font-size: 1.8rem;
+      }
+
+      .digit-danger {
+        font-size: 3rem;
+      }
+
+      .card-warning {
+        padding: 1.2rem;
+      }
+
+      .progress-circle-container {
+        width: 70px;
+        height: 70px;
+        top: 10px;
+        right: 10px;
+      }
+
+      .learner-header {
+        padding: 1rem 1.2rem;
+        gap: 0.8rem;
+      }
     }
 
     .hyk-warning {
@@ -325,23 +374,6 @@
       color: transparent;
       border-left: 4px solid #ff3b6f;
       padding-left: 1.2rem;
-      text-shadow: 0 0 8px #ff2e5e;
-    }
-
-    .final-emergency {
-      background: #0a0208ee;
-      border-radius: 4rem;
-      padding: 3.5rem 2rem;
-      border: 4px solid #ff2e5e;
-      box-shadow: 0 0 120px #ff1f5a, inset 0 0 30px #ff8c6b;
-      text-align: center;
-      animation: alarmBlink 0.7s infinite alternate;
-      backdrop-filter: blur(8px);
-    }
-
-    @keyframes alarmBlink {
-      0% { border-color: #ff1f5a; box-shadow: 0 0 40px #ff1f5a; background: #1c0510cc; }
-      100% { border-color: #ff7b9e; box-shadow: 0 0 110px #ff4d6d; background: #2f0a18cc; }
     }
 
     .footer-warning {
@@ -350,33 +382,27 @@
       font-weight: 500;
     }
 
-    .appear-smooth {
-      animation: appear 1s ease forwards;
-    }
-
-    @keyframes appear {
-      0% { opacity: 0; transform: translateY(25px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    *::-webkit-scrollbar { display: none; }
-    * { -ms-overflow-style: none; scrollbar-width: none; }
-
-    .glow-text-critical {
-      text-shadow: 0 0 30px #ff2e5e, 0 0 15px #ff6b8f;
-    }
     .badge-critical {
       animation: pulseBadge 1s infinite;
       font-weight: 800;
       background: #3c0f1c;
       border-color: #ff4d6d;
     }
+
     @keyframes pulseBadge {
-      0% { background-color: #4a121f; border-color: #ff4d6d; box-shadow: 0 0 8px red; }
-      100% { background-color: #b91c2e; border-color: #ffb3c6; box-shadow: 0 0 18px #ff3a5e; }
+      0% {
+        background-color: #4a121f;
+        border-color: #ff4d6d;
+        box-shadow: 0 0 8px red;
+      }
+
+      100% {
+        background-color: #b91c2e;
+        border-color: #ffb3c6;
+        box-shadow: 0 0 18px #ff3a5e;
+      }
     }
 
-    /* Halloween spider web decoration on corners */
     .spider-web {
       position: fixed;
       bottom: 0;
@@ -397,18 +423,63 @@
       opacity: 0.25;
     }
 
-    /* NO SOUND ELEMENT — removed completely */
+    .appear-smooth {
+      animation: appear 1s ease forwards;
+    }
+
+    @keyframes appear {
+      0% {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-out-card {
+      animation: fadeOutCard 0.4s forwards;
+    }
+
+    @keyframes fadeOutCard {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+    }
+
+    .fade-in-card {
+      animation: fadeInCard 0.5s forwards;
+    }
+
+    @keyframes fadeInCard {
+      0% {
+        opacity: 0;
+        transform: scale(0.94);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
   </style>
 </head>
+
 <body>
 
-  <!-- Halloween atmosphere orbs (no sound, no background image) -->
   <div class="halloween-orb left"></div>
   <div class="halloween-orb right"></div>
   <div class="spider-web"></div>
   <div class="spider-web" style="top:0; right:0; left:auto; bottom:auto; transform: rotate(90deg);"></div>
 
-  <!-- progress ring indicator red alert -->
   <div class="progress-circle-container">
     <svg class="progress-circle" viewBox="0 0 100 100">
       <defs>
@@ -426,13 +497,12 @@
     </div>
   </div>
 
-  <div class="relative z-40 w-full max-w-6xl p-5 appear-smooth">
-    <div class="card-warning p-10 md:p-14 lg:p-16">
-
-      <!-- header warning red tags + halloween icons -->
-      <div class="flex flex-wrap items-center justify-between gap-5 mb-12">
-        <span class="badge-critical text-sm font-black text-red-100 tracking-[0.3em] bg-red-950/90 px-7 py-3 rounded-full border-2 border-red-500 uppercase shadow-lg shadow-red-900/50 flex items-center gap-2">
-          🎃 FIL NOIR · HALLOWEEN COUNTDOWN 🦇
+  <div class="relative z-40 w-full max-w-5xl p-5 appear-smooth">
+    <div class="card-warning p-8 md:p-12">
+      <div class="flex flex-wrap items-center justify-between gap-5 mb-8">
+        <span
+          class="badge-critical text-sm font-black text-red-100 tracking-[0.3em] bg-red-950/90 px-7 py-3 rounded-full border-2 border-red-500 uppercase shadow-lg shadow-red-900/50 flex items-center gap-2">
+          🎃 FIL NOIR · HALLOWEEN CYCLE 🦇
         </span>
         <div class="flex items-center gap-5">
           <span class="text-base text-red-300/80 font-semibold">crafted by</span>
@@ -442,88 +512,268 @@
 
       <div id="mainUI">
         <div class="text-center">
-          <h1 class="text-6xl md:text-8xl font-black text-white tracking-tight glow-text-critical flex flex-wrap justify-center items-center gap-3">
-            Fil Noir <span class="text-red-500 drop-shadow-[0_0_25px_#ff4d6d]">2026</span> <span class="text-5xl">🩸</span>
+          <h1
+            class="text-6xl md:text-8xl font-black text-white tracking-tight flex flex-wrap justify-center items-center gap-3"
+            style="text-shadow: 0 0 30px #ff2e5e, 0 0 15px #ff6b8f;">
+            Fil Noir <span class="text-red-500 drop-shadow-[0_0_25px_#ff4d6d]">2026</span> <span
+              class="text-5xl">🩸</span>
           </h1>
           <p class="text-red-300/90 mt-4 text-xl md:text-2xl font-mono tracking-wider font-bold animate-pulse">
             ⚰️ THE DARK DAY · APRIL 27 · NO TIME LEFT ⚰️
           </p>
-          <div class="inline-block mt-4 bg-black/70 text-red-300 text-sm px-5 py-2 rounded-full border-2 border-red-600/80 font-bold tracking-wide shadow-red-800/30 flex items-center gap-2">
+          <div
+            class="inline-block mt-4 bg-black/70 text-red-300 text-sm px-5 py-2 rounded-full border-2 border-red-600/80 font-bold tracking-wide shadow-red-800/30 flex items-center gap-2">
             🧛‍♂️ WARNING: ABDELAZIZ AIT HASSAN REMOVED — PURGED 🕸️
           </div>
         </div>
 
-        <!-- LEARNERS DISPLAY with halloween blood alert effect -->
+        <!-- ROTATING LEARNER CARD (One by one) -->
         <div class="flex justify-center my-12">
-          <div class="learners-alert" id="learnerContainer">
-            <div class="student-images-container" id="studentImagesContainer"></div>
-            <span class="learners-text-warning" id="learnerMessage">Abdelilah Isswa</span>
+          <div id="rotatingLearnerCard" class="rotating-learner-card">
+            <!-- dynamic content injected here -->
           </div>
         </div>
 
-        <!-- countdown tiles emergency style halloween -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8 mt-10">
-          <div class="tile-emergency"><span class="digit-danger" id="days">00</span><span class="digit-label">DAYS</span><span class="absolute bottom-1 right-2 text-xs opacity-50">🦇</span></div>
-          <div class="tile-emergency"><span class="digit-danger" id="hours">00</span><span class="digit-label">HOURS</span><span class="absolute bottom-1 right-2 text-xs opacity-50">🌙</span></div>
-          <div class="tile-emergency"><span class="digit-danger" id="minutes">00</span><span class="digit-label">MINUTES</span><span class="absolute bottom-1 right-2 text-xs opacity-50">🕯️</span></div>
-          <div class="tile-emergency"><span class="digit-danger" id="seconds">00</span><span class="digit-label">SECONDS</span><span class="absolute bottom-1 right-2 text-xs opacity-50">💀</span></div>
+        <!-- Global Countdown Tiles -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8 mt-6">
+          <div class="tile-emergency"><span class="digit-danger" id="days">00</span><span
+              class="digit-label">DAYS</span><span class="absolute bottom-1 right-2 text-xs opacity-50">🦇</span></div>
+          <div class="tile-emergency"><span class="digit-danger" id="hours">00</span><span
+              class="digit-label">HOURS</span><span class="absolute bottom-1 right-2 text-xs opacity-50">🌙</span></div>
+          <div class="tile-emergency"><span class="digit-danger" id="minutes">00</span><span
+              class="digit-label">MINUTES</span><span class="absolute bottom-1 right-2 text-xs opacity-50">🕯️</span>
+          </div>
+          <div class="tile-emergency"><span class="digit-danger" id="seconds">00</span><span
+              class="digit-label">SECONDS</span><span class="absolute bottom-1 right-2 text-xs opacity-50">💀</span>
+          </div>
         </div>
       </div>
 
       <div id="finalUI" class="hidden w-full flex justify-center py-8"></div>
 
-      <div class="footer-warning mt-16 pt-8 text-center text-base flex flex-wrap items-center justify-center gap-6 font-semibold">
+      <div
+        class="footer-warning mt-16 pt-8 text-center text-base flex flex-wrap items-center justify-center gap-6 font-semibold">
         <span>🎃</span><span>FIL NOIR · YOUCODE · DEADLINE ZERO</span><span>🩸</span>
-        <span class="text-red-400 font-extrabold animate-pulse tracking-wider">CRITICAL ALERT: APRIL 27 · HALLOWEEN IS COMING</span><span>💀</span>
+        <span class="text-red-400 font-extrabold animate-pulse tracking-wider">CRITICAL ALERT: APRIL 27 · HALLOWEEN IS
+          COMING</span><span>💀</span>
       </div>
     </div>
   </div>
 
   <script>
     (function () {
-      // LEARNER DATA: Abdelaziz Ait Hassain removed
+      // Learner Data: Abdelaziz removed, each with personal deadline (MM/DD) - interpreted in 2026
       const learnerData = [
-        { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile//1545-1760996241.png" },
-        { name: "Abderrahim Elgmouri", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1875-1760996503.png" },
-        { name: "Abderrazak Errifaouy", imageUrl: "https://intranet.youcode.ma/storage/users/profile/764-1760996158.png" },
-        { name: "Amine Lebrini", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1778-1760996463.png" },
-        { name: "Ayoub Houdda", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1656-1760996326.png" },
-        { name: "Badr Eddine Slaoui", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1665-1760996334.png" },
-        { name: "Bilal Bakessou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1854-1760996479.png" },
-        { name: "Bouchaib El Haidi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1896-1760996532.png" },
-        { name: "Brahim El Habchi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1775-1760996461.png" },
-        { name: "Houssam YK", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1720-1760996396.png" },
-        { name: "Houssam Mirrou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1756-1760996448.png" },
-        { name: "Houssam Largou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1755-1760996446.png" },
-        { name: "Kaoutar Zahir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1666-1760996336.png" },
-        { name: "Khadija El Haddad", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1865-1760996489.png" },
-        { name: "Lahcen Ait Maskour", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1542-1760996237.png" },
-        { name: "Mohamed Rahoumi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1783-1760996473.png" },
-        { name: "Mohamed reda chakir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1664-1760996332.png" },
-        { name: "Mouad El Alli", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1722-1760996401.png" },
-        { name: "Noureddine Zouana", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1879-1760996511.png" },
-        { name: "Olaya Azzam", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1744-1760996438.png" },
-        { name: "Saad Haimeur", imageUrl: "https://media.licdn.com/dms/image/v2/D4E03AQHg8vsMEiI6Fw/profile-displayphoto-scale_400_400/B4EZgof51cGwAk-/0/1753026111159?e=1777507200&v=beta&t=rfjFQBgjp1btV8tpPdfNEU5YRnb5LroWWmmfoVTpu2Y" },
-        { name: "Saadia Ajbbar", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1643-1760996313.png" },
-        { name: "Saoui Mouna", imageUrl: "https://intranet.youcode.ma/storage/users/profile/2053-1760996607.png" },
-        { name: "Yassine Nmila", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1712-1760996382.png" },
+        { name: "Abdelilah Isswa", imageUrl: "https://intranet.youcode.ma/storage/users/profile//1545-1760996241.png", date: "04/29" },
+        { name: "Abderrahim Elgmouri", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1875-1760996503.png", date: "04/28" },
+        { name: "Abderrazak Errifaouy", imageUrl: "https://intranet.youcode.ma/storage/users/profile/764-1760996158.png", date: "04/28" },
+        { name: "Amine Lebrini", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1778-1760996463.png", date: "04/27" },
+        { name: "Ayoub Houdda", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1656-1760996326.png", date: "04/28" },
+        { name: "Badr Eddine Slaoui", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1665-1760996334.png", date: "04/27" },
+        { name: "Bilal Bakessou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1854-1760996479.png", date: "04/29" },
+        { name: "Bouchaib El Haidi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1896-1760996532.png", date: "04/28" },
+        { name: "Brahim El Habchi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1775-1760996461.png", date: null },
+        { name: "Houssam YK", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1720-1760996396.png", date: "04/27" },
+        { name: "Houssam Mirrou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1756-1760996448.png", date: "04/27" },
+        { name: "Houssam Largou", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1755-1760996446.png", date: null },
+        { name: "Kaoutar Zahir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1666-1760996336.png", date: "04/30" },
+        { name: "Khadija El Haddad", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1865-1760996489.png", date: "04/30" },
+        { name: "Lahcen Ait Maskour", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1542-1760996237.png", date: "04/27" },
+        { name: "Mohamed Rahoumi", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1783-1760996473.png", date: "04/30" },
+        { name: "Mohamed reda chakir", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1664-1760996332.png", date: null },
+        { name: "Mouad El Alli", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1722-1760996401.png", date: "04/28" },
+        { name: "Noureddine Zouana", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1879-1760996511.png", date: null },
+        { name: "Olaya Azzam", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1744-1760996438.png", date: "04/30" },
+        { name: "Saad Haimeur", imageUrl: "https://media.licdn.com/dms/image/v2/D4E03AQHg8vsMEiI6Fw/profile-displayphoto-scale_400_400/B4EZgof51cGwAk-/0/1753026111159?e=1777507200&v=beta&t=rfjFQBgjp1btV8tpPdfNEU5YRnb5LroWWmmfoVTpu2Y", date: "04/27" },
+        { name: "Saadia Ajbbar", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1643-1760996313.png", date: "04/30" },
+        { name: "Saoui Mouna", imageUrl: "https://intranet.youcode.ma/storage/users/profile/2053-1760996607.png", date: null },
+        { name: "Yassine Nmila", imageUrl: "https://intranet.youcode.ma/storage/users/profile/1712-1760996382.png", date: "04/28" },
       ];
 
-      const targetDate = new Date(2026, 3, 27, 0, 0, 0);
+      // Global main deadline
+      const mainTargetDate = new Date(2026, 3, 27, 0, 0, 0);
       const seasonStart = new Date(2025, 9, 7, 0, 0, 0);
       const seasonEnd = new Date(2026, 4, 5, 0, 0, 0);
 
-      const mainDiv = document.getElementById('mainUI');
-      const finalDiv = document.getElementById('finalUI');
+      // DOM elements
       const daysSpan = document.getElementById('days');
       const hoursSpan = document.getElementById('hours');
       const minutesSpan = document.getElementById('minutes');
       const secondsSpan = document.getElementById('seconds');
-      const learnerSpan = document.getElementById('learnerMessage');
-      const studentImagesContainer = document.getElementById('studentImagesContainer');
+      const mainDiv = document.getElementById('mainUI');
+      const finalDiv = document.getElementById('finalUI');
       const progressFill = document.getElementById('progressFill');
       const progressPercentage = document.getElementById('progressPercentage');
       const circumference = 2 * Math.PI * 45;
+      const rotatingCardContainer = document.getElementById('rotatingLearnerCard');
+
+      let currentIndex = 0;
+      let rotationInterval = null;
+      let personalUpdateInterval = null;
+
+      // Helper: parse personal deadline (MM/DD) into Date object (year 2026, at end of day)
+      function parsePersonalDeadline(dateStr) {
+        if (!dateStr) return null;
+        const parts = dateStr.split('/');
+        if (parts.length !== 2) return null;
+        const month = parseInt(parts[0], 10) - 1;
+        const day = parseInt(parts[1], 10);
+        return new Date(2026, month, day, 23, 59, 59);
+      }
+
+      // Format remaining time for a given deadline date
+      function getRemainingForDeadline(deadlineDate) {
+        if (!deadlineDate) return null;
+        const now = Date.now();
+        const diff = deadlineDate.getTime() - now;
+        if (diff <= 0) return "EXPIRED";
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        return `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+      }
+
+      // Render the current learner card (with individual countdown)
+      function renderCurrentLearnerCard() {
+        if (!rotatingCardContainer) return;
+        const learner = learnerData[currentIndex];
+        if (!learner) return;
+
+        const deadlineDate = parsePersonalDeadline(learner.date);
+        let remainingStr = "—";
+        let statusMsg = "";
+        let isExpired = false;
+
+        if (!deadlineDate) {
+          remainingStr = "⚰️ NO DEADLINE";
+          statusMsg = "🕸️ PENDING / NO DATE";
+        } else {
+          const now = Date.now();
+          const diff = deadlineDate.getTime() - now;
+          if (diff <= 0) {
+            remainingStr = "🩸 EXPIRED 🩸";
+            statusMsg = "⚠️ DEADLINE MISSED · THE RECKONING ⚠️";
+            isExpired = true;
+          } else {
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            remainingStr = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+            statusMsg = `⏳ REMAINING UNTIL HALLOWEEN DEADLINE · ${learner.date}`;
+          }
+        }
+
+        const statusClass = isExpired ? 'expired-status-red' : '';
+        const cardHTML = `
+          <div class="learner-header">
+            <img class="learner-avatar" src="${learner.imageUrl}" alt="${learner.name}" onerror="this.src='https://via.placeholder.com/100?text=🩸'">
+            <div>
+              <div class="learner-name">${learner.name}</div>
+              <div class="deadline-badge">📅 PERSONAL DEADLINE: ${learner.date ? learner.date : 'NOT ASSIGNED'}</div>
+            </div>
+          </div>
+          <div class="personal-countdown-section">
+            <div class="personal-timer-large" id="currentLearnerTimer">${remainingStr}</div>
+            <div class="personal-status-message ${statusClass}" id="currentLearnerStatus">${statusMsg}</div>
+          </div>
+        `;
+
+        rotatingCardContainer.innerHTML = cardHTML;
+        // add fade-in effect
+        rotatingCardContainer.classList.remove('fade-out-card');
+        rotatingCardContainer.classList.add('fade-in-card');
+        setTimeout(() => {
+          if (rotatingCardContainer) rotatingCardContainer.classList.remove('fade-in-card');
+        }, 500);
+      }
+
+      // Update only the timer and status for the currently displayed learner (without re-rendering whole card)
+      function updateCurrentLearnerCountdown() {
+        const learner = learnerData[currentIndex];
+        if (!learner) return;
+        const deadlineDate = parsePersonalDeadline(learner.date);
+        const timerSpan = document.getElementById('currentLearnerTimer');
+        const statusSpan = document.getElementById('currentLearnerStatus');
+        if (!timerSpan || !statusSpan) return;
+
+        if (!deadlineDate) {
+          timerSpan.innerText = "⚰️ NO DEADLINE";
+          statusSpan.innerText = "🕸️ PENDING / NO DATE";
+          statusSpan.classList.remove('expired-status-red');
+          return;
+        }
+
+        const now = Date.now();
+        const diff = deadlineDate.getTime() - now;
+        if (diff <= 0) {
+          timerSpan.innerText = "🩸 EXPIRED 🩸";
+          statusSpan.innerText = "⚠️ DEADLINE MISSED · THE RECKONING ⚠️";
+          statusSpan.classList.add('expired-status-red');
+        } else {
+          const days = Math.floor(diff / 86400000);
+          const hours = Math.floor((diff % 86400000) / 3600000);
+          const minutes = Math.floor((diff % 3600000) / 60000);
+          const seconds = Math.floor((diff % 60000) / 1000);
+          timerSpan.innerText = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+          statusSpan.innerText = `⏳ REMAINING UNTIL HALLOWEEN DEADLINE · ${learner.date}`;
+          statusSpan.classList.remove('expired-status-red');
+        }
+      }
+
+      // Rotate to next learner every 3 seconds
+      function nextLearner() {
+        if (isGlobalExpired()) return;
+        // fade out effect
+        if (rotatingCardContainer) {
+          rotatingCardContainer.classList.add('fade-out-card');
+          setTimeout(() => {
+            currentIndex = (currentIndex + 1) % learnerData.length;
+            renderCurrentLearnerCard();
+          }, 280);
+        } else {
+          currentIndex = (currentIndex + 1) % learnerData.length;
+          renderCurrentLearnerCard();
+        }
+      }
+
+      // Global countdown logic
+      function isGlobalExpired() { return Date.now() >= mainTargetDate.getTime(); }
+      function formatTwo(n) { return n < 10 ? '0' + n : n; }
+
+      function updateGlobalCountdown() {
+        if (isGlobalExpired()) {
+          if (mainDiv && !mainDiv.classList.contains('hidden')) showFinalScreen();
+          return true;
+        }
+        const diff = mainTargetDate - Date.now();
+        if (diff <= 0) { showFinalScreen(); return true; }
+        daysSpan.innerText = formatTwo(Math.floor(diff / 86400000));
+        hoursSpan.innerText = formatTwo(Math.floor((diff % 86400000) / 3600000));
+        minutesSpan.innerText = formatTwo(Math.floor((diff % 3600000) / 60000));
+        secondsSpan.innerText = formatTwo(Math.floor((diff % 60000) / 1000));
+        return false;
+      }
+
+      function showFinalScreen() {
+        if (rotationInterval) clearInterval(rotationInterval);
+        if (personalUpdateInterval) clearInterval(personalUpdateInterval);
+        if (mainDiv) mainDiv.classList.add('hidden');
+        if (finalDiv) {
+          finalDiv.classList.remove('hidden');
+          finalDiv.innerHTML = `
+            <div class="final-emergency">
+              <span class="text-9xl block mb-5 animate-pulse">🎃🩸💀</span>
+              <h2 class="text-6xl md:text-8xl font-black text-white tracking-tighter drop-shadow-[0_0_40px_red]">FIL NOIR</h2>
+              <p class="text-5xl text-red-500 font-black mt-4 animate-pulse">ARRIVED · ZERO HOUR</p>
+              <p class="text-red-300/90 mt-8 text-2xl border-t border-red-700/70 pt-8 font-mono">april 27, 2026 · the abyss is now · halloween curse</p>
+              <div class="mt-10 text-red-300/70 text-base tracking-widest font-bold">⚠️ H Y K   ·   Y O U C O D E   ·   CRITICAL ⚠️</div>
+              <div class="text-3xl mt-6">🕸️ 🦇 🧛</div>
+            </div>
+          `;
+        }
+      }
 
       function calculateSeasonPercentage() {
         const now = Date.now();
@@ -542,112 +792,69 @@
         progressPercentage.innerText = Math.floor(percentage);
       }
 
-      let currentDisplayIndex = 0;
-      let studentImageElements = [];
-
-      function createAllStudentImages() {
-        learnerData.forEach((student, idx) => {
-          const img = document.createElement('img');
-          img.src = student.imageUrl;
-          img.alt = student.name;
-          img.className = 'student-img';
-          studentImagesContainer.appendChild(img);
-          studentImageElements.push(img);
-        });
-      }
-
-      function showCurrentLearnerImage(index) {
-        studentImageElements.forEach(img => img.classList.remove('visible'));
-        if (studentImageElements[index]) studentImageElements[index].classList.add('visible');
-      }
-
-      function updateLearnerDisplay() {
-        const studentIndex = currentDisplayIndex % learnerData.length;
-        const currentLearner = learnerData[studentIndex];
-        learnerSpan.innerText = currentLearner.name;
-        showCurrentLearnerImage(studentIndex);
-        currentDisplayIndex++;
-      }
-
-      function formatTwo(n) { return n < 10 ? '0' + n : n; }
-      function isExpired() { return Date.now() >= targetDate.getTime(); }
-
-      let flashInterval = null;
-      function startRedFlashWarning() {
-        const container = document.getElementById('learnerContainer');
-        if (!container) return;
-        let toggle = false;
-        flashInterval = setInterval(() => {
-          if (isExpired()) { if (flashInterval) clearInterval(flashInterval); return; }
-          toggle = !toggle;
-          container.style.boxShadow = toggle ? '0 0 85px #ff2e5e, inset 0 0 22px #ff6b8f' : '0 0 35px #ff1f5a, inset 0 0 8px #ff3b6f';
-          container.style.borderColor = toggle ? '#ff809e' : '#ff2e5e';
-        }, 400);
-      }
-
-      function showFinalScreen() {
-        if (flashInterval) clearInterval(flashInterval);
-        mainDiv.classList.add('hidden');
-        finalDiv.classList.remove('hidden');
-        finalDiv.innerHTML = `
-          <div class="final-emergency">
-            <span class="text-9xl block mb-5 animate-pulse">🎃🩸💀</span>
-            <h2 class="text-6xl md:text-8xl font-black text-white tracking-tighter drop-shadow-[0_0_40px_red]">FIL NOIR</h2>
-            <p class="text-5xl text-red-500 font-black mt-4 animate-pulse">ARRIVED · ZERO HOUR</p>
-            <p class="text-red-300/90 mt-8 text-2xl border-t border-red-700/70 pt-8 font-mono">april 27, 2026 · the abyss is now · halloween curse</p>
-            <div class="mt-10 text-red-300/70 text-base tracking-widest font-bold">⚠️ H Y K   ·   Y O U C O D E   ·   CRITICAL ⚠️</div>
-            <div class="text-3xl mt-6">🕸️ 🦇 🧛</div>
-          </div>
-        `;
-      }
-
-      function updateNumbersAndMaybeFinal() {
-        if (isExpired()) { showFinalScreen(); return true; }
-        const diff = targetDate - Date.now();
-        if (diff <= 0) { showFinalScreen(); return true; }
-        daysSpan.innerText = formatTwo(Math.floor(diff / 86400000));
-        hoursSpan.innerText = formatTwo(Math.floor((diff % 86400000) / 3600000));
-        minutesSpan.innerText = formatTwo(Math.floor((diff % 3600000) / 60000));
-        secondsSpan.innerText = formatTwo(Math.floor((diff % 60000) / 1000));
-        return false;
-      }
-
       function animateTileBlink() {
+        if (isGlobalExpired()) return;
         document.querySelectorAll('.tile-emergency').forEach(tile => {
           tile.style.backgroundColor = '#2e0f1a';
           tile.style.borderColor = '#ff6b8f';
-          setTimeout(() => { if (!isExpired()) { tile.style.backgroundColor = '#1f0a12dd'; tile.style.borderColor = '#f43f5e'; } }, 130);
+          setTimeout(() => { if (!isGlobalExpired()) { tile.style.backgroundColor = '#1f0a12dd'; tile.style.borderColor = '#f43f5e'; } }, 130);
         });
       }
 
-      function init() {
-        createAllStudentImages();
-        updateProgressCircle();
-        if (isExpired()) { showFinalScreen(); return; }
-        updateNumbersAndMaybeFinal();
-        learnerSpan.innerText = learnerData[0].name;
-        showCurrentLearnerImage(0);
-        currentDisplayIndex = 1;
-        startRedFlashWarning();
+      function startRotationAndTimers() {
+        if (isGlobalExpired()) return;
+        // Render first card
+        renderCurrentLearnerCard();
+        // Rotate every 3 seconds
+        rotationInterval = setInterval(() => {
+          if (!isGlobalExpired()) {
+            nextLearner();
+          } else {
+            if (rotationInterval) clearInterval(rotationInterval);
+          }
+        }, 3000);
 
-        const timerInterval = setInterval(() => {
-          if (isExpired()) { clearInterval(timerInterval); clearInterval(learnerInterval); if(flashInterval) clearInterval(flashInterval); showFinalScreen(); }
-          else { updateNumbersAndMaybeFinal(); updateProgressCircle(); animateTileBlink(); }
+        // Update current displayed learner's personal timer every second
+        personalUpdateInterval = setInterval(() => {
+          if (!isGlobalExpired()) {
+            updateCurrentLearnerCountdown();
+          } else {
+            if (personalUpdateInterval) clearInterval(personalUpdateInterval);
+          }
+        }, 1000);
+      }
+
+      function init() {
+        if (isGlobalExpired()) { showFinalScreen(); return; }
+        updateProgressCircle();
+        updateGlobalCountdown();
+        startRotationAndTimers();
+
+        const globalTimer = setInterval(() => {
+          if (isGlobalExpired()) {
+            clearInterval(globalTimer);
+            if (rotationInterval) clearInterval(rotationInterval);
+            if (personalUpdateInterval) clearInterval(personalUpdateInterval);
+            showFinalScreen();
+          } else {
+            updateGlobalCountdown();
+            updateProgressCircle();
+            animateTileBlink();
+          }
         }, 1000);
 
-        const learnerInterval = setInterval(() => { if (!isExpired()) updateLearnerDisplay(); else clearInterval(learnerInterval); }, 2800);
-
         let pulseBody = false;
-        setInterval(() => { 
-          if (!isExpired()) { 
-            pulseBody = !pulseBody; 
-            const bodyBg = document.body;
-            bodyBg.style.background = pulseBody ? 'radial-gradient(circle at 20% 30%, #2f0a16 0%, #000000 100%)' : 'radial-gradient(circle at 10% 20%, #2a0a12 0%, #000000 100%)';
+        setInterval(() => {
+          if (!isGlobalExpired()) {
+            pulseBody = !pulseBody;
+            document.body.style.background = pulseBody ? 'radial-gradient(circle at 20% 30%, #2f0a16 0%, #000000 100%)' : 'radial-gradient(circle at 10% 20%, #2a0a12 0%, #000000 100%)';
           }
         }, 900);
       }
+
       init();
     })();
   </script>
 </body>
+
 </html>
